@@ -6,6 +6,7 @@
 #include <string.h>
 
 #define MAX_ARGUMENTOS 11
+#define CANT_PARAMETROS 6
 #define MEMORIA_POR_OMISION 50
 #define MAX_STR 30
 #define EXTENSION "lms"
@@ -26,16 +27,17 @@ typedef enum
 
 typedef enum
 {
-	ARG_MEMORIA,
-	ARG_FILE_INPUT,
-	ARG_BIN_INPUT,
-	ARG_FILE_OUTPUT,
-	ARG_BIN_OUTPUT,
-	ARG_HELP,
-	ARG_INVALIDO
+	ARG_MEMORIA = 0,
+	ARG_FILE_INPUT = 1,
+	ARG_BIN_INPUT = 2,
+	ARG_FILE_OUTPUT = 3,
+	ARG_BIN_OUTPUT = 4,
+	ARG_HELP = 5,
+	ARG_INVALIDO = 6
 } arg_t;
 
 /*STATUS_T QUE HAY QUE PASAR A OTRO ARCHIVO*/
+/* a tipos.h, donde meteriamos los typedef mas generales */
 typedef enum
 {
 	ST_OK,
@@ -48,7 +50,7 @@ typedef enum
 	ST_ERROR_BIN_INPUT_MAL,
 	ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO,
 	ST_ERROR_OUTPUT_EXTENSION_MAL,
-	ST_ERROR_BIN_OUTPUT_MAL,
+	ST_ERROR_BIN_OUTPUT_MAL, 					/*no me convence el "MAL"*/
 	ST_HELP,
 	ST_ERROR_ARGUMENTOS_INVALIDOS
 } status_t;
