@@ -4,12 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
 
 #define MAX_ARGUMENTOS 11
-#define CANT_PARAMETROS 6
 #define MEMORIA_POR_OMISION 50
 #define MAX_STR 30
-#define EXTENSION "lms"
+#define EXTENSION_TXT ".lms"
+#define EXTENSION_BIN ".bin"
+#define LARGO_EXTENSION 4
 #define TXT_ARG_MEMORIA "-m"
 #define TXT_ARG_FILE_INPUT "-i"
 #define TXT_ARG_BIN_INPUT "-if"
@@ -19,14 +21,7 @@
 #define TXT_INDICADOR_TEXTO "txt"
 #define TXT_INDICADOR_BINARIO "bin"
 
-typedef enum
-{
-	TRUE,
-	FALSE
-} bool_t;
-
-typedef enum
-{
+typedef enum {
 	ARG_MEMORIA = 0,
 	ARG_FILE_INPUT = 1,
 	ARG_BIN_INPUT = 2,
@@ -36,28 +31,8 @@ typedef enum
 	ARG_INVALIDO = 6
 } arg_t;
 
-/*STATUS_T QUE HAY QUE PASAR A OTRO ARCHIVO*/
-/* a tipos.h, donde meteriamos los typedef mas generales */
-typedef enum
-{
-	ST_OK,
-	ST_ERROR_PUNTERO_NULO,
-	ST_ERROR_CANTIDAD_ARGUMENTOS,
-	ST_ERROR_MEMORIA_INVALIDA,
-	ST_ERROR_CARACTER_INCORRECTO_MEMORIA,
-	ST_ERROR_FILE_INPUT_DEMASIADO_LARGO,
-	ST_ERROR_INPUT_EXTENSION_MAL,
-	ST_ERROR_BIN_INPUT_MAL,
-	ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO,
-	ST_ERROR_OUTPUT_EXTENSION_MAL,
-	ST_ERROR_BIN_OUTPUT_MAL, 					/*no me convence el "MAL"*/
-	ST_HELP,
-	ST_ERROR_ARGUMENTOS_INVALIDOS
-} status_t;
-
-struct parametros
-{
-	long memoria;
+struct parametros {
+	long cantidad_de_memoria;
 	char file_input [MAX_STR];
 	bool_t stdin_input;
 	bool_t bin_input;
