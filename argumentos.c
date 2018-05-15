@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "argumentos.h"
+#include "types.h"
 #include "herramientas.h"
 
 /* Recibe la estructura de los parámetros por puntero para no tener que

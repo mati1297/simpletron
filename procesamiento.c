@@ -1,10 +1,11 @@
 #include "procesamiento.h"
 #include <stdio.h>
-#include <stdlin.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "argumentos.h"
 #include "types.h"
+#include "procesamiento.h"
 
 
 /* Esta función recibe un puntero a la estructura con la informacion sobre
@@ -12,7 +13,7 @@
  * de punteros a estructuras en donde se gurdarán las instrucciones leídas
  * en el archivo de texto ingresado como argumento. Devuelve un estado a
  * través de la interfaz en caso de que ocurra un error o no */
-status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params) {
+status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params) { /*ver tema doble puntero o triple*/
 	
 	FILE * fi;
 	char * buffer, * endp;
@@ -44,7 +45,7 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 			buffer = NULL;
 			return st;
 		
-		for (i = LARGO_INSTRUCCION; buffer [i]; i++)
+		for (i = LARGO_INSTRUCCION; buffer [i]; i++) 
 			if (!isspace (buffer[i])) {
 				
 				fclose (fi);
@@ -53,7 +54,8 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 				return ST_ERROR_INSTRUCCION_INVALIDA;
 			}
 		
-		(*memoria)[i] -> numero_dato = strtol (buffer, &endp, 10);
+		(*memoria)[i] -> numero_dato = strtol (buffer, &endp, 10); /*LA RE FLASHASTE AMEO JAJAJ, FIJATE QUE EN OTRO LADO NO ESTE
+		ASI TAMBIEN*/
 		
 		if (*endp && *endp != ' ') {
 			
@@ -151,7 +153,7 @@ status_t procesamiento_stdin (struct wololo ** memoria, struct parametros * para
 			return st;
 		}
 		
-		aux = strtol (buffer, &endp, 10);
+		aux = strtol (buffer, &endp, 10 /*donde esta declarada aux??*/
 		
 		if (*endp) {
 			

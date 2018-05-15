@@ -2,11 +2,12 @@
 #define PROCESAMIENTO__H 1
 
 #include <stdio.h>
-#include <stdlin.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "argumentos.h"
 #include "types.h"
+#include "herramientas.h"
 
 #define DELIM ';'
 #define LARGO_INSTRUCCION 5
