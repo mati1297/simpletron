@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "types.h"
 
 status_t split_str (char * str_in, size_t largo_str_in, char * str_out, size_t largo_str_out, int izq, int der) {
@@ -14,3 +15,16 @@ status_t split_str (char * str_in, size_t largo_str_in, char * str_out, size_t l
 	return ST_OK;	
 }
 
+status_t cortar_cadena (char ** cadena, char delim) {
+	
+	char * ptr;
+	
+	if (cadena == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	
+	if (ptr = strchr (*cadena, delim))
+		*ptr = '\0';
+	
+	return ST_OK;
+}
+	
