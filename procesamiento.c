@@ -13,11 +13,12 @@
  * de punteros a estructuras en donde se gurdarán las instrucciones leídas
  * en el archivo de texto ingresado como argumento. Devuelve un estado a
  * través de la interfaz en caso de que ocurra un error o no */
-status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params) { /*ver tema doble puntero o triple*/
+status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * params) {
 	
 	FILE * fi;
 	char * buffer, * endp;
 	char delim = DELIM;
+	size_t i, j;
 	status_t st;
 	
 	if (memoria == NULL || params == NULL) {
@@ -27,16 +28,16 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 	
 	if ((fi = fopen (params -> file_input, "rt")) == NULL) {
 		
-		return ST_ERROR_INPUT_FILE;
+		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 		
-	if ((buffer = (char *) malloc (sizeof (char) * MEMORIA_PEDIDA)) == NULL) {
+	if ((buffer = (char *) malloc (sizeof (char) * MAX_CADENA)) == NULL) {
 		
 		fclose (fi);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
-	for (i = 0; fgets (buffer, MAX_STR + 2, fi); i++) {
+	for (i = 0; fgets (buffer, MAX_CADENA + 2, fi); i++) {
 		
 		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
 			
@@ -44,9 +45,10 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 			free (buffer);
 			buffer = NULL;
 			return st;
+		}
 		
-		for (i = LARGO_INSTRUCCION; buffer [i]; i++) 
-			if (!isspace (buffer[i])) {
+		for (j = LARGO_INSTRUCCION; buffer [j]; i++) 
+			if (!isspace (buffer[j])) {
 				
 				fclose (fi);
 				free (buffer);
@@ -54,8 +56,7 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 				return ST_ERROR_INSTRUCCION_INVALIDA;
 			}
 		
-		(*memoria)[i] -> numero_dato = strtol (buffer, &endp, 10); /*LA RE FLASHASTE AMEO JAJAJ, FIJATE QUE EN OTRO LADO NO ESTE
-		ASI TAMBIEN*/
+		(*memoria)[i] -> numero_dato = strtol (buffer, &endp, 10); 
 		
 		if (*endp && *endp != ' ') {
 			
@@ -65,14 +66,21 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
-		(*memoria)[i] -> pos = ((*memoria)[i] -> numero_dato) % 100;
+		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % 100;
 		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / 100;
 		
-		free (buffer);
-		buffer = NULL;
-		fclose (fi);
-
 	}
+	free (buffer);
+	buffer = NULL;
+	
+	if (ferror (fi)) {
+		
+		fclose (fi);
+		return ST_ERROR_LECTURA_ARCHIVO;
+	}
+	
+	fclose (fi);
+	
 	return ST_OK;
 }
 
@@ -81,38 +89,62 @@ status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params
  * de punteros a estructuras en donde se gurdarán las instrucciones leídas
  * en el archivo binario ingresado como argumento. Devuelve un estado a
  * través de la interfaz en caso de que ocurra un error o no */
-status_t procesamiento_bin (struct wololo ** memoria, struct parametros * params) {
+status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * params) {
 	
 	FILE * fi;
-	char * buffer;
+	char * buffer, * endp;
+	size_t i = 0, j = 0;
 	
 	if (memoria == NULL || params == NULL) {
 		
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
-	if ((fi = fopen (params -> input_file, "rb")) == NULL) {
+	if ((fi = fopen (params -> file_input, "rb")) == NULL) {
 		
-		return ST_ERROR_INPUT_FILE;
+		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
-	if ((buffer = (char *) malloc (sizeof (char) * MEMORIA_PEDIDA)) == NULL) {
+	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 1))) == NULL) {
 		
 		fclose (fi);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
-	for (i = 0; i < params -> cantidad_de_memoria; i++) {
+	while (fread (&buffer[i], sizeof (char), LARGO_INSTRUCCION, fi) == LARGO_INSTRUCCION) {
 		
-		fread (buffer, sizeof (char), MEMORIA_PEDIDA, fi);
+		(*memoria)[j] -> numero_dato = strtol (buffer, &endp, 10);
 		
-		if (*buffer == EOF)
-			break;
+		if (*endp) {
 			
-								/* sin terminar */
-	
-	}
+			fclose (fi);
+			free (buffer);
+			buffer = NULL;
+		}
 		
+		(*memoria)[j] -> operando = (*memoria)[j] -> numero_dato % 100;
+		(*memoria)[j] -> opcode = (*memoria)[j] -> numero_dato / 100;
+		
+		if (fseek (fi, 1, SEEK_CUR) == -1) {
+			
+			fclose (fi);
+			free (buffer);
+			buffer = NULL;
+			return ST_ERROR_LECTURA_ARCHIVO;
+		}
+		j++;
+	}
+	
+	free (buffer);
+	buffer = NULL;
+	
+	if (ferror (fi)) {
+		
+		fclose (fi);
+		return ST_ERROR_LECTURA_ARCHIVO;
+	}
+	
+	fclose (fi);
 	
 	return ST_OK;
 }
@@ -122,9 +154,11 @@ status_t procesamiento_bin (struct wololo ** memoria, struct parametros * params
  * de punteros a estructuras en donde se gurdarán las instrucciones leídas
  * por pantalla a medida de que el usuario las ingrese. Devuelve un estado
  * a través de la interfaz en caso de que ocurra un error o no */
-status_t procesamiento_stdin (struct wololo ** memoria, struct parametros * params) {
+status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros * params) {
 	
-	char * buffer;
+	char * buffer, * endp;
+	long aux;
+	status_t st;
 	size_t i;
 	
 	if (memoria == NULL || params == NULL) {
@@ -153,7 +187,7 @@ status_t procesamiento_stdin (struct wololo ** memoria, struct parametros * para
 			return st;
 		}
 		
-		aux = strtol (buffer, &endp, 10 /*donde esta declarada aux??*/
+		aux = strtol (buffer, &endp, 10);
 		
 		if (*endp) {
 			
@@ -165,7 +199,7 @@ status_t procesamiento_stdin (struct wololo ** memoria, struct parametros * para
 			break;
 			
 		(*memoria)[i] -> numero_dato = aux;
-		(*memoria)[i] -> pos = ((*memoria)[i] -> numero_dato) % 100;
+		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % 100;
 		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / 100;		
 	}
 	

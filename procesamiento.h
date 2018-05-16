@@ -11,18 +11,18 @@
 
 #define DELIM ';'
 #define LARGO_INSTRUCCION 5
-#define MEMORIA_PEDIDA 100
+#define MAX_CADENA 100
 
 
-struct wololo {
+struct instruccion {
 	int numero_dato;
 	opcode_t opcode;
-	size_t pos;
+	size_t operando;
 };
 
-status_t procesamiento_txt (struct wololo ** memoria, struct parametros * params);
-status_t procesamiento_bin (struct wololo ** memoria, struct parametros * params);
-status_t procesamiento_stdin (struct wololo ** memoria, struct parametros * params);
+status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * params);
+status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * params);
+status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros * params);
 status_t cortar_cadena (char ** cadena, char delim);
 
 #endif
