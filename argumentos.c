@@ -109,28 +109,12 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				return ST_ERROR_ARGUMENTOS_INVALIDOS;
 		}
 	}
-	/*VALIDACION EXTENSION INPUT*/
-	if (argv -> stdin_input == FALSE) {
-		num_aux = strlen(argv->file_input);
-		split_str(argv->file_input, MAX_STR, aux_extension, LARGO_EXTENSION, (num_aux - LARGO_EXTENSION), num_aux);
-		
-		if (argv -> bin_input == FALSE && strcmp(aux_extension, EXTENSION_TXT))
-			return ST_ERROR_INPUT_EXTENSION_INCORRECTA;
-		
-		if (argv->bin_input == TRUE && strcmp(aux_extension, EXTENSION_BIN))
-			return ST_ERROR_INPUT_EXTENSION_INCORRECTA;
-	}
-	/*VALIDACION EXTENSION OUTPUT*/
-	if (argv -> stdout_output == FALSE) {
-
-		num_aux = strlen(argv->file_output);
-		split_str(argv->file_output, MAX_STR, aux_extension, LARGO_EXTENSION, (num_aux - LARGO_EXTENSION), num_aux);
-		
-		if (argv->bin_output == FALSE && strcmp(aux_extension, EXTENSION_TXT))
-			return ST_ERROR_OUTPUT_EXTENSION_INCORRECTA;
-		
-		if (argv->bin_output == TRUE && strcmp(aux_extension, EXTENSION_BIN))
-			return ST_ERROR_OUTPUT_EXTENSION_INCORRECTA;
-	}
+	
+	/*sujeto a revision lo siguiente*/
+	
+	if (argv -> stdin_input == TRUE || argv -> bin_input == TRUE)
+		return ST_ERROR_ARGUMENTO_INVALIDOS;
+	if (argv -> stdout_output == TRUE || argv -> bin_output == TRUE)
+		return ST_ERROR_ARGUMENTOS_INVALIDOS;
 	return ST_OK;
 }

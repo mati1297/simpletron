@@ -1,28 +1,41 @@
-#include <stdio -> h>
-#include <stdlib -> h>
-#include "funciones -> h"
-#include "procesamiento -> h"
-#include "types -> h"
-#include "argumentos -> h"
-#include "procesamiento -> h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "funciones.h"
+#include "procesamiento.h"
+#include "types.h"
+#include "argumentos.h"
 
-status_t seleccion_de_funcion (struct wololo *** instrucciones,struct parametros * parametros) {
-	long acc;
+status_t seleccion_de_funcion (struct wololo *** instrucciones, long cantidad_de_memoria, struct estado * estado) {
 	status_t st;
-	if (instrucciones == NULL)
+	size_t i;
+	if (instrucciones == NULL || estado == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	switch ((*instrucciones)[i] -> opcode) {
+	
+	for (i = 0, estado -> contador = 0; i < cantidad_de_memoria; ) {
+		
+		
+		/*Se cargan los nuevos datos al estado*/
+		estado -> instruccion_actual = *(*instrucciones)[i];
+		(estado -> contador)++;
+		
+		if((*instrucciones)[i] -> opcode == HALT) /*Lo pongo aca porque no se como hacerlo en switch*/
+			break;
+		
+		switch ((*instrucciones)[i] -> opcode) {
 		case LEER:
-			leer ((*instrucciones)[i] -> pos);
+			if(leer (instrucciones, (*instrucciones)[i] -> pos) != ST_OK)
+				return st;
 			break;
 		case ESCRIBIR:
-			escribir ((*instrucciones)[i] -> pos);
+			if(escribir (instrucciones, (*instrucciones)[i] -> pos) != ST_OK)
+				return st;
 			break;
 		case CARGAR:
-			cargar ((*instrucciones)[i] -> pos, &acc);
-			break;
+			if(cargar (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 		case GUARDAR:
-			guardar ((*instrucciones)[i] -> pos, &acc);
+			if(guardar (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 			break;
 		case PCARGAR:
 			pcargar ((*instrucciones)[i] -> pos, &acc);
@@ -31,48 +44,134 @@ status_t seleccion_de_funcion (struct wololo *** instrucciones,struct parametros
 			pguardar ((*instrucciones)[i] -> pos, &acc);
 			break;
 		case SUMAR:
-			sumar ((*instrucciones)[i] -> pos, &acc);
+			if(sumar (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 			break;
 		case RESTAR:
-			restar ((*instrucciones)[i] -> pos, &acc);
+			if(restar (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 			break;
 		case DIVIDIR:
-			dividir ((*instrucciones)[i] -> pos, &acc);
+			if(dividir (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 			break;
 		case MULTIPLICAR:
-			multiplicar ((*instrucciones)[i] -> pos, &acc);
+			if(multiplicar (instrucciones, (*instrucciones)[i] -> pos, &(estado -> acc)) != ST_OK)
+				return st;
 		case JMP:
-			jmp ((*instrucciones)[i] -> pos, &acc);
+			if(jmp (instrucciones, (*instrucciones)[i] -> pos, cantidad_de_memoria, &i) != ST_OK)
+				return st;
 			break;
 		case JMPNEG:
-			jmpneg ((*instrucciones)[i] -> pos, &acc);
+			if ((estado -> acc) < 0)
+				if(jmp (instrucciones, (*instrucciones)[i] -> pos, cantidad_de_memoria, &i) != ST_OK)
+					return st;
 			break;
 		case JMPZERO:
-			jmpzero ((*instrucciones)[i] -> pos, &acc);
-			break
+			if (!(estado -> acc))
+				if(jmp (instrucciones, (*instrucciones)[i] -> pos, cantidad_de_memoria, &i) != ST_OK)
+					return st;
+			break;
 		case JNZ:
-			jnz ((*instrucciones)[i] -> pos, &acc);
+			if ((estado -> acc))
+				if(jmp (instrucciones, (*instrucciones)[i] -> pos, cantidad_de_memoria, &i) != ST_OK)
+					return st;
 			break;
 		case DJNZ:
-			djnz ((*instrucciones)[i] -> pos, &acc);
-			break;
-		case HALT:
-			halt ((*instrucciones)[i] -> pos, &acc);
+			if (--(estado -> acc))
+				if(jmp (instrucciones, (*instrucciones)[i] -> pos, cantidad_de_memoria, &i) != ST_OK)
+					return st;
 			break;
 		default:
 			return ST_ERROR_OPCODE_INVALIDO;
 		}
-	/*seguir??*/
+	}
+	
+	if (i > cantidad_de_memoria)
+		return ST_ERROR_POSICION_INEXISTENTE;
+		
+	return ST_OK;
 }
 
 status_t leer (struct wololo *** instrucciones, size_t pos) {
-	char aux [LARGO_INSTRUCCION + 2], *endp;
+	char cadena_aux [LARGO_INSTRUCCION + 2], *endp;
+	int numero_aux;
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	if (fgets(aux, LARGO_INSTRUCCION + 2, stdin) == NULL)
+	if (fgets(cadena_aux, LARGO_INSTRUCCION + 2, stdin) == NULL)
 		return ST_ERROR_ENTRADA_INVALIDA;
-	(*instrucciones)[i] -> num_dato = strtol(aux, &endp, 10);
+	numero_aux = strtol(cadena_aux, &endp, 10);
 	if (*endp != '\n' && *endp)
 		return ST_ERROR_INSTRUCCION_INVALIDA;
-	/*seguir aca*/
+	if (numero_aux > 9999 || numero_aux < -9999)
+		return ST_ERROR_INSTRUCCION_INVALIDA;
+	(*instrucciones)[pos] -> numero_dato = numero_aux;
+	(*instrucciones)[pos] -> opcode = (*instrucciones)[pos] -> numero_dato / 100;
+	(*instrucciones)[pos] -> pos = (*instrucciones)[pos] -> numero_dato % 100;
+	return ST_OK;
+}
+
+status_t escribir (struct wololo *** instrucciones, size_t pos) {
+	if (instrucciones == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	fprintf(stdout, "%d", (*instrucciones)[pos] -> numero_dato);
+	return ST_OK;
+}
+
+status_t cargar (struct wololo *** instrucciones, size_t pos, long * acc) {
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	*acc = (*instrucciones)[pos] -> numero_dato;
+	return ST_OK;
+}
+
+status_t guardar (struct wololo *** instrucciones, size_t pos, long * acc) {
+	int aux;
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	aux = *acc;
+	if (aux > 9999 || aux < -9999)
+		return ST_ERROR_ACUMULADOR_MUY_GRANDE;
+	(*instrucciones)[pos] -> numero_dato =  aux;
+	(*instrucciones)[pos] -> opcode = (*instrucciones)[pos] -> numero_dato / 100;
+	(*instrucciones)[pos] -> pos = (*instrucciones)[pos] -> numero_dato % 100;
+	return ST_OK;
+}
+
+
+/*FALTA PCARGAR Y PGUARDAR*/
+
+status_t sumar (struct wololo *** instrucciones, size_t pos, long * acc) {
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	(*acc) += (*instrucciones)[pos] -> numero_dato;
+	return ST_OK;
+}
+
+status_t restar (struct wololo *** instrucciones, size_t pos, long * acc) {
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	(*acc) -= (*instrucciones)[pos] -> numero_dato;
+	return ST_OK;
+}
+
+status_t dividir (struct wololo *** instrucciones, size_t pos, long * acc) {
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	(*acc) /= (*instrucciones)[pos] -> numero_dato;
+	return ST_OK;
+}
+
+status_t multiplicar (struct wololo *** instrucciones, size_t pos, long * acc) {
+	if (instrucciones == NULL || acc == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	(*acc) *= (*instrucciones)[pos] -> numero_dato;
+	return ST_OK;
+}
+
+status_t jmp (struct wololo *** instrucciones, size_t pos,  long cantidad_de_memoria, size_t * i) {
+	if (instrucciones == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	*i = pos - 1; /*Se le resta 1 para que cuando sume el ciclo, quede en la posicion correcta*/
+	return ST_OK;
 }

@@ -1,6 +1,5 @@
-Corregir que si se ingresa -if o -of y no se ingreso -i o -o hay un error, corregir algunas cosas de ayuda.txt como lo que seria maximo de
+Corregir que si se ingresa -if o -of y no se ingreso -i o -o hay un error, solo se puede ingresar stdin con txt (y stdout creo que tambien), corregir algunas cosas de ayuda.txt como lo que seria maximo de
 nombre de archivo etc
 
-Corregir tambien que si se ingresa por stdin no se especifica cantidad de memoria!! :)
 
 Aclarar que a instruccion le llamamos a todo, tanto al numero como al opcode como a la pos de memoria, es el conjunto (PARA INFORME)!!
