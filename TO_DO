@@ -1,3 +1,5 @@
+IMPORTANTE VER CORRECTAMENTE LOS INCLUDES NECESARIOS Y CUALES NO LO SON.
+
 Corregir que si se ingresa -if o -of y no se ingreso -i o -o hay un error, solo se puede ingresar stdin con txt (y stdout creo que tambien), corregir algunas cosas de ayuda.txt como lo que seria maximo de
 nombre de archivo etc
 
@@ -12,4 +14,6 @@ mati: aclarame en algun comentario que serian los errores que no completé
 
 y el tema del largo del nombre del archivo de entrada o salida no se si tratarlo como error
 
-Que archivos.c usan la estructura de instrucciones?
+Que archivos.c usan la estructura de instrucciones? practicamente todos xd, menos el de argumentos
+
+EN EL MAIN PONER QUE IMPRIMA INICIO DE EJECUCION Y FIN DE EJECUCION??

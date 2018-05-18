@@ -54,4 +54,21 @@ struct instruccion {
 	size_t operando;
 };
 
+struct estado
+{
+	long acc;
+	size_t contador;
+	struct instruccion instruccion_actual;
+};
+
+struct parametros {
+	long cantidad_de_memoria;
+	char file_input [MAX_STR];
+	bool_t stdin_input;
+	bool_t bin_input;
+	char file_output [MAX_STR];
+	bool_t stdout_output;
+	bool_t bin_output;
+};
+
 #endif

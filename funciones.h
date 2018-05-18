@@ -7,13 +7,11 @@
 #include "funciones.h"
 #include "argumentos.h"
 #include "procesamiento.h"
+#include "idioma.h"
 
-struct estado
-{
-	long acc;
-	size_t contador;
-	struct instruccion instruccion_actual;
-};
+
+
+
 
 status_t leer (struct instruccion *** instrucciones, size_t operando);
 status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado);

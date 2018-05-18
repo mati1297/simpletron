@@ -4,6 +4,7 @@
 #include "procesamiento.h"
 #include "types.h"
 #include "argumentos.h"
+#include "idioma.h"
 
 status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado) {
 	status_t st;
@@ -96,6 +97,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 status_t leer (struct instruccion *** instrucciones, size_t operando) {
 	char cadena_aux [LARGO_INSTRUCCION + 2], *endp;
 	int numero_aux;
+	fprintf(stdout, "%s: ", MSJ_INGRESO_PALABRA);
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 	if (fgets(cadena_aux, LARGO_INSTRUCCION + 2, stdin) == NULL)
@@ -112,6 +114,7 @@ status_t leer (struct instruccion *** instrucciones, size_t operando) {
 }
 
 status_t escribir (struct instruccion *** instrucciones, size_t operando) {
+	fprintf(stdout, "%s %lu: ", MSJ_CONTENIDO_POSICION, operando);
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 	fprintf(stdout, "%d", (*instrucciones)[operando] -> numero_dato);

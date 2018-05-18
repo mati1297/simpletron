@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "error.h"
+#include "herramientas.h"
 
 #define MAX_ARGUMENTOS 11
 #define MEMORIA_POR_OMISION 50
@@ -28,15 +30,7 @@ typedef enum {
 	ARG_INVALIDO = 6
 } arg_t;
 
-struct parametros {
-	long cantidad_de_memoria;
-	char file_input [MAX_STR];
-	bool_t stdin_input;
-	bool_t bin_input;
-	char file_output [MAX_STR];
-	bool_t stdout_output;
-	bool_t bin_output;
-};
+
 
 status_t cargar_argumentos_por_omision (struct parametros * argv);
 status_t procesar_argumentos (const char ** vec_argv, struct parametros * argv, int argc);
