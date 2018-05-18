@@ -12,18 +12,18 @@ struct estado
 {
 	long acc;
 	size_t contador;
-	struct wololo instruccion_actual;
+	struct instruccion instruccion_actual;
 };
 
-status_t leer (struct wololo *** instrucciones, size_t pos);
-status_t seleccion_de_funcion (struct wololo *** instrucciones, long cantidad_de_memoria, struct estado * estado);
-status_t escribir (struct wololo *** instrucciones, size_t pos);
-status_t cargar (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t guardar (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t sumar (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t restar (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t dividir (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t multiplicar (struct wololo *** instrucciones, size_t pos, long * acc);
-status_t jmp (struct wololo *** instrucciones, size_t pos,  long cantidad_de_memoria, size_t * i);
+status_t leer (struct instruccion *** instrucciones, size_t operando);
+status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado);
+status_t escribir (struct instruccion *** instrucciones, size_t operando);
+status_t cargar (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t guardar (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t sumar (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t restar (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t dividir (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t multiplicar (struct instruccion *** instrucciones, size_t operando, long * acc);
+status_t jmp (struct instruccion *** instrucciones, size_t operando,  long cantidad_de_memoria, size_t * i);
 
 #endif
