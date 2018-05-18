@@ -1,11 +1,39 @@
 #ifndef ERRORES_ESP__H
 #define ERRORES_ESP__H
 
-#define NO_HAY_ERROR "No hay error"
-#define ERROR_PTR_NULO "Se encontró un puntero nulo"
-#define ERROR_CANTIDAD_DE_ARGS "Cantidad de argumentos inválida"
-#define ERROR_MEMORIA_INVALIDA "No hay memoria disponible"
-#define ERROR_ENTRADA_INVALIDA "Se ingresó un caracter inválido"
-#define ERROR_CARACTER_INCORRECTO_MEMORIA "Cantidad de memoria inválida"
+#define MAX_ERROR_STR 35
 
-char errores [][] = {NO_HAY_ERROR, ERROR_PTR_NULO, 
+#define ERROR "Error"
+#define NO_HAY_ERROR "No hay error"
+#define MSJ_ERROR_PTR_NULO "Se encontró un puntero nulo"
+#define MSJ_ERROR_CANTIDAD_DE_ARGS "Cantidad de argumentos inválida"
+#define MSJ_ERROR_MEMORIA_INVALIDA "No hay memoria disponible"
+#define MSJ_ERROR_ENTRADA_INVALIDA "Se ingresó un caracter inválido"
+#define MSJ_ERROR_FILE_INPUT_DEMASIADO_LARGO
+#define MSJ_ERROR_BIN_INPUT_INCORRECTO
+#define MSJ_ERROR_FILE_OUTPUT_DEMASIADO_LARGO
+#define MSJ_ERROR_BIN_OUTPUT_INCORRECTO
+#define MSJ_ERROR_ARGUMENTO_INVALIDO "El argumento ingresado es inválido"
+#define MSJ_ERROR_INSTRUCCION_INVALIDA "La instrucción es inválida"
+#define MSJ_ERROR_DIMENSION 
+#define MSJ_ERROR_OPCOPDE_INVALIDO "Opcode inválido"
+#define MSJ_ERROR_LECTURA_ARCHIVO "No se pudo leer el archivo"
+
+char error [][MAX_ERROR_STR] = {
+	NO_HAY_ERROR,
+	MSJ_ERROR_PTR_NULO,
+	MSJ_ERROR_CANTIDAD_DE_ARGS,
+	MSJ_ERROR_MEMORIA_INVALIDA,
+	MSJ_ERROR_ENTRADA_INVALIDA,
+	MSJ_ERROR_FILE_INPUT_DEMASIADO_LARGO,
+	MSJ_ERROR_BIN_INPUT_INCORRECTO,
+	MSJ_ERROR_FILE_OUTPUT_DEMASIADO_LARGO,
+	MSJ_ERROR_BIN_OUTPUT_INCORRECTO,
+	MSJ_ERROR_ARGUMENTO_INVALIDO,
+	MSJ_ERROR_INSTRUCCION_INVALIDA,
+	MSJ_ERROR_DIMENSION,
+	MSJ_ERROR_OPCOPDE_INVALIDO,
+	MSJ_ERROR_LECTURA_ARCHIVO
+};
+
+#endif

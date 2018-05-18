@@ -3,3 +3,13 @@ nombre de archivo etc
 
 
 Aclarar que a instruccion le llamamos a todo, tanto al numero como al opcode como a la pos de memoria, es el conjunto (PARA INFORME)!!
+
+Liberar la memoria al despues de usarla o en caso de fallas (con la funcion en herramientas)
+
+donde se usa split_str?
+
+mati: aclarame en algun comentario que serian los errores que no completé
+
+y el tema del largo del nombre del archivo de entrada o salida no se si tratarlo como error
+
+Que archivos.c usan la estructura de instrucciones?

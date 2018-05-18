@@ -9,9 +9,6 @@
 #define MAX_ARGUMENTOS 11
 #define MEMORIA_POR_OMISION 50
 #define MAX_STR 30
-#define EXTENSION_TXT ".lms"
-#define EXTENSION_BIN ".bin"
-#define LARGO_EXTENSION 4
 #define TXT_ARG_MEMORIA "-m"
 #define TXT_ARG_FILE_INPUT "-i"
 #define TXT_ARG_BIN_INPUT "-if"

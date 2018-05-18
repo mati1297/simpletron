@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "herramientas.h"
 #include "argumentos.h"
 #include "types.h"
-#include "procesamiento.h"
+#include "error.h"
 
 
 /* Esta función recibe un puntero a la estructura con la informacion sobre
@@ -18,7 +19,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	FILE * fi;
 	char * buffer, * endp;
 	char delim = DELIM;
-	size_t i, j;
+	size_t i, j, cant;
 	status_t st;
 	
 	if (memoria == NULL || params == NULL) {
@@ -26,14 +27,28 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
+	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
+		
+		return ST_ERROR_MEMORIA_INVALIDA;
+	}
+	
+	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
+		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
+			
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_MEMORIA_INVALIDA;
+		}
+	
 	if ((fi = fopen (params -> file_input, "rt")) == NULL) {
 		
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 		
 	if ((buffer = (char *) malloc (sizeof (char) * MAX_CADENA)) == NULL) {
 		
 		fclose (fi);
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
@@ -44,6 +59,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return st;
 		}
 		
@@ -63,11 +79,12 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
-		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % 100;
-		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / 100;
+		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % MAX_CANT_OPERANDOS;
+		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / MAX_CANT_OPERANDOS;
 		
 	}
 	free (buffer);
@@ -76,6 +93,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	if (ferror (fi)) {
 		
 		fclose (fi);
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
@@ -93,21 +111,35 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 	
 	FILE * fi;
 	char * buffer, * endp;
-	size_t i = 0, j = 0;
+	size_t i = 0, j = 0, cant;
 	
 	if (memoria == NULL || params == NULL) {
 		
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
+	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
+		
+		return ST_ERROR_MEMORIA_INVALIDA;
+	}
+	
+	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
+		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
+			
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_MEMORIA_INVALIDA;
+		}
+		
 	if ((fi = fopen (params -> file_input, "rb")) == NULL) {
 		
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
 	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 1))) == NULL) {
 		
 		fclose (fi);
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
@@ -120,16 +152,19 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
-		(*memoria)[j] -> operando = (*memoria)[j] -> numero_dato % 100;
-		(*memoria)[j] -> opcode = (*memoria)[j] -> numero_dato / 100;
+		(*memoria)[j] -> operando = (*memoria)[j] -> numero_dato % MAX_CANT_OPERANDOS;
+		(*memoria)[j] -> opcode = (*memoria)[j] -> numero_dato / MAX_CANT_OPERANDOS;
 		
 		if (fseek (fi, 1, SEEK_CUR) == -1) {
 			
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_LECTURA_ARCHIVO;
 		}
 		j++;
@@ -141,6 +176,7 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 	if (ferror (fi)) {
 		
 		fclose (fi);
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
@@ -159,15 +195,28 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 	char * buffer, * endp;
 	long aux;
 	status_t st;
-	size_t i;
+	size_t i, cant;
 	
 	if (memoria == NULL || params == NULL) {
 		
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
+	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
+		
+		return ST_ERROR_MEMORIA_INVALIDA;
+	}
+	
+	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
+		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
+			
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_MEMORIA_INVALIDA;
+		}
+	
 	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 2))) == NULL) {
 		
+		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
@@ -177,6 +226,7 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_ENTRADA_INVALIDA;
 		}
 		
@@ -184,6 +234,7 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return st;
 		}
 		
@@ -193,14 +244,13 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			
 			free (buffer);
 			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
-		if (aux == INSTRUCCION_FINAL)
-			break;
 			
 		(*memoria)[i] -> numero_dato = aux;
-		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % 100;
-		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / 100;		
+		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % MAX_CANT_OPERANDOS;
+		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / MAX_CANT_OPERANDOS;
 	}
 	
 	free (buffer);

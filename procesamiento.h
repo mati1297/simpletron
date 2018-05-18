@@ -11,14 +11,7 @@
 
 #define DELIM ';'
 #define LARGO_INSTRUCCION 5
-#define MAX_CADENA 100
-
-
-struct instruccion {
-	int numero_dato;
-	opcode_t opcode;
-	size_t operando;
-};
+#define MAX_CANT_OPERANDOS 100
 
 status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * params);
 status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * params);

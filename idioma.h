@@ -1,7 +1,7 @@
 #ifndef IDIOMA__H
 #define IDIOMA__H
 
-#ifdefined (ESP)
+#if defined (ESP)
 #include "errores_esp.h"
 
 #elif defined (ENG)

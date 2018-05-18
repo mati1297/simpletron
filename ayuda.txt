@@ -1,20 +1,27 @@
-Ingreso -h por lo que a continuacion se presenta una ayuda sobre los parametros que pueden pasarse al compilar para configurar el Simpletron.
+Ingresó -h por lo que a continuacion se presenta una ayuda sobre los parametros que pueden pasarse
+al compilar para configurar el Simpletron.
 
 * -m :
-	luego de "-m" se ingresa la cantidad de memoria (un numero entero) que tendra Simpletron. Si no ingresa el parametro, se considerara que tiene 50 palabras, donde cada palabra es una instrucion.
+	luego de "-m" se ingresa la cantidad de memoria (un numero entero) que tendra Simpletron. Si
+	no ingresa el parametro, se considerara que tiene 50 palabras, donde cada palabra es una
+	instrucion. Puede ingresar como máximo 100 palabras.
 
 * -i :
-	si se ingresa "-i" seguido del nombre de un archivo, las instrucciones a ejecutar se leeran del archivo ingresado. Si no se ingresa el parametro, se las leeran por pantalla.
+	si se ingresa "-i" seguido del nombre de un archivo, las instrucciones a ejecutar se leeran
+	del archivo ingresado. Si no se ingresa el parametro, se las leeran por el teclado.
 
 * -if :
-	luego de ingresar "-if" hay dos opciones. Si se quiere que el archivo se entienda como una secuencia binaria de enteros que representan palabras, ingresar "-if bin".
+	luego de ingresar "-if" hay dos opciones. Si se quiere que el archivo se entienda como una
+	secuencia binaria de enteros que representan palabras, ingresar "-if bin".
 	Si se quiere que se entienda como una secuencia de numeros decimales, ingresar "-if txt".
 	Solo ingresar si las instrucciones se leen de un archivo, no por pantalla.
 
 * -o :
-	si desea que el dump (volcado, es decir, la devolucion del programa) se haga en un archivo, ingresar "-o archivo". Si desea que se haga por pantalla, no ingrese este parametro.
+	si desea que el dump (volcado, es decir, la devolucion del programa) se haga en un archivo,
+	ingresar "-o archivo". Si desea que se haga por pantalla, no ingrese este parametro.
 
 * -of :
-	luego de ingresar "-of" hay dos opciones. Si se quiere que el volcado se realice en binario, ingresar "-of bin".
+	luego de ingresar "-of" hay dos opciones. Si se quiere que el volcado se realice en binario,
+	ingresar "-of bin".
 	Si se quiere que se realice en forma de texto, ingresar "-of txt".
 	Solo ingresar si el dump se realiza en un archivo, no por pantalla.
