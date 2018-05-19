@@ -29,16 +29,21 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 	else {
 		if ((parametros -> stdout_output) == TRUE)
 			f_output = stdout;
-		else
+		else {
 			if((f_output = fopen(parametros -> file_output, "w")) == NULL) {
 				imprimir_error(ST_ERROR_LECTURA_ARCHIVO);
 				return ST_ERROR_LECTURA_ARCHIVO;
 			}
-		if((st = imprimir_registros (estado, f_output)) != ST_OK)
-			return st;
-		if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK)
+		}
+		if((st = imprimir_registros (estado, f_output)) != ST_OK) {
+			imprimir_error (st);
 			return st;
 		}
+		if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK) {
+			imprimir_error (st);
+			return st;
+		}
+	}
 	
 	return ST_OK;
 }

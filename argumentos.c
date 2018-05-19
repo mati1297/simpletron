@@ -95,16 +95,16 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
 					argv -> bin_input = TRUE;
 				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO)) {
-					imprimir_error (ST_ERROR_BIN_INPUT_INCORRECTO);
-					return ST_ERROR_BIN_INPUT_INCORRECTO;
+					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+					return ST_ERROR_ARGUMENTO_INVALIDO;
 				}
 				break;
 				
-			case ARG_FILE_OUTPUT: /*VERIFICAR CARACTERES INVALIDOS??*/
+			case ARG_FILE_OUTPUT:
 				i++;
 				if (strlen(vec_argv[i]) > (MAX_STR - 1)) {
 					imprimir_error (ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO);
-					return ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO;	/*idem FILE_INPUT*/
+					return ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO;
 				}
 				strcpy(argv -> file_output, vec_argv[i]);
 				argv -> stdout_output = FALSE;
@@ -115,8 +115,8 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
 					argv -> bin_output = TRUE;
 				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO)) {
-					imprimir_error (ST_ERROR_BIN_OUTPUT_INCORRECTO);
-					return ST_ERROR_BIN_OUTPUT_INCORRECTO;
+					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+					return ST_ERROR_ARGUMENTO_INVALIDO;
 				}
 				break;
 				

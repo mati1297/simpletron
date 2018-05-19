@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "argumentos.h"
 #include "types.h"
 #include "dump.h"
 #include "procesamiento.h"
 #include "funciones.h"
+#include "herrmientas.h"
 
 int main (int argc, const char * argv [])
 {
@@ -15,22 +17,30 @@ int main (int argc, const char * argv [])
 	if (procesar_argumentos (argv, &params, argc) != ST_OK)
 		return EXIT_FAILURE;
 	
-	if (params.bin_input == TRUE)
+	if (params.bin_input == TRUE) {
 		if (procesamiento_bin (&instrucciones, &params) != ST_OK)
 			return EXIT_FAILURE;
-	else if (params.stdin_input == TRUE)
+	}
+	else if (params.stdin_input == TRUE) {
 		if (procesamiento_stdin (&instrucciones, &params) != ST_OK)
 			return EXIT_FAILURE;
-	else /* deberia poner llaves? para que no lo interprete como un else if */
+	}
+	else {
 		if (procesamiento_txt (&instrucciones, &params) != ST_OK)
 			return EXIT_FAILURE;
-			
-	if((st = seleccion_de_funcion (&instrucciones, params.cantidad_de_memoria, &estado_actual)) != ST_OK && st != ST_ERROR_SIMPLETRON)
+	}
+	
+	st = seleccion_de_funcion (&instrucciones, params.cantidad_de_memoria, &estado_actual);
+		
+	if (st != ST_OK && st != ST_ERROR_SIMPLETRON)
 		return EXIT_FAILURE;
 		
-	if(imprimir_dump(&estado_actual, &instrucciones, &params) != ST_OK)
+	if (imprimir_dump (&estado_actual, &instrucciones, &params) != ST_OK) {
+		liberar_vector_de_punteros (&instrucciones, params.cantidad_de_memoria);
 		return EXIT_FAILURE;
+	}
 		
-	/*LIBERAR MEMORIA*/
+	liberar_vector_de_punteros (&instrucciones, params.cantidad_de_memoria);
+	
 	return EXIT_SUCCESS;
 }
