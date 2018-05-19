@@ -15,19 +15,30 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 		imprimir_error(ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
-	if ((parametros -> stdout_output) == TRUE)
-		f_output = stdout;
-	else
-		if((f_output = fopen(parametros -> file_output, "w")) == NULL) {
+	if (parametros -> bin_output == TRUE) {
+		if((f_output = fopen(parametros -> file_output, "wb")) == NULL) {
 			imprimir_error(ST_ERROR_LECTURA_ARCHIVO);
 			return ST_ERROR_LECTURA_ARCHIVO;
 		}
-	if((st = imprimir_registros (estado, f_output)) != ST_OK)
-		return st;
-	if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK)
-		return st;
+		if ((st = imprimir_bin(estado, f_output, instrucciones, parametros -> cantidad_de_memoria)) != ST_OK) {
+			imprimir_error(st);
+			return st;
+		}
+	}
 	
-	
+	else {
+		if ((parametros -> stdout_output) == TRUE)
+			f_output = stdout;
+		else
+			if((f_output = fopen(parametros -> file_output, "w")) == NULL) {
+				imprimir_error(ST_ERROR_LECTURA_ARCHIVO);
+				return ST_ERROR_LECTURA_ARCHIVO;
+			}
+		if((st = imprimir_registros (estado, f_output)) != ST_OK)
+			return st;
+		if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK)
+			return st;
+		}
 	
 	return ST_OK;
 }
@@ -48,15 +59,29 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
 	size_t i;
 	if (instrucciones == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	for (i = 0; i < 10 && i < cantidad_de_memoria; i++)
+	for (i = 0; i < COLUMNAS && i < cantidad_de_memoria; i++)
 		fprintf(f_output, "      %lu", i);
 	fputc('\n', f_output);
 	for (i = 0; i < cantidad_de_memoria; i++) {
-		if (!(i % 10)) {
+		if (!(i % COLUMNAS)) {
 			fputc('\n', f_output);
 			fprintf(f_output, "%2lu  ", i);
 		}
 		fprintf(f_output, "%+5d  ", (*instrucciones)[i] -> numero_dato);
 	}
+	return ST_OK;
+}
+
+status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instruccion *** instrucciones, long cantidad_de_memoria) {
+	size_t i;
+	if (estado == NULL || f_output == NULL || instrucciones == NULL)
+		return ST_ERROR_PUNTERO_NULO;
+	fwrite(&(estado -> acc), sizeof(long), 1, f_output);
+	fwrite(&(estado -> contador), sizeof(size_t), 1, f_output);
+	fwrite(&((estado -> instruccion_actual).numero_dato), sizeof(int), 1, f_output);
+	fwrite(&((estado -> instruccion_actual).opcode), sizeof(int), 1, f_output);
+	fwrite(&((estado -> instruccion_actual).operando), sizeof(size_t), 1, f_output);
+	for (i = 0; i < cantidad_de_memoria; i++)
+		fwrite(&((*instrucciones)[i] -> numero_dato), sizeof(int), 1, f_output);
 	return ST_OK;
 }
