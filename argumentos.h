@@ -15,7 +15,7 @@
 #define TXT_ARG_FILE_INPUT "-i"
 #define TXT_ARG_BIN_INPUT "-if"
 #define TXT_ARG_FILE_OUTPUT "-o"
-#define TXT_ARG_BIN_OUTPUT "-o"
+#define TXT_ARG_BIN_OUTPUT "-of"
 #define TXT_ARG_HELP "-h"
 #define TXT_INDICADOR_TEXTO "txt"
 #define TXT_INDICADOR_BINARIO "bin"

@@ -32,8 +32,10 @@ int main (int argc, const char * argv [])
 	
 	st = seleccion_de_funcion (&instrucciones, params.cantidad_de_memoria, &estado_actual);
 		
-	if (st != ST_OK && st != ST_ERROR_SIMPLETRON)
+	if (st != ST_OK && st != ST_ERROR_SIMPLETRON) {
+		liberar_vector_de_punteros (&instrucciones, params.cantidad_de_memoria);
 		return EXIT_FAILURE;
+	}
 		
 	if (imprimir_dump (&estado_actual, &instrucciones, &params) != ST_OK) {
 		liberar_vector_de_punteros (&instrucciones, params.cantidad_de_memoria);

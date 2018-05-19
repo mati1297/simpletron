@@ -10,7 +10,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 	status_t st;
 	size_t i;
 	if (instrucciones == NULL || estado == NULL) {
-		liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+		
 		imprimir_error(ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
@@ -26,7 +26,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 			break;
 			
 		if((*instrucciones)[i] -> operando >= cantidad_de_memoria) {
-			liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+			
 			imprimir_error(ST_ERROR_SIMPLETRON);
 			return ST_ERROR_SIMPLETRON;
 		}
@@ -34,75 +34,75 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		switch ((*instrucciones)[i] -> opcode) {
 		case LEER:
 			if((st = leer (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case ESCRIBIR:
 			if((st = escribir (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case CARGAR:
 			if((st = cargar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 		case GUARDAR:
 			if((st = guardar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case PCARGAR:
 			if((st = pcargar(instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case PGUARDAR:
 			if((st = pguardar (instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case SUMAR:
 			if((st = sumar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case RESTAR:
 			if((st = restar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case DIVIDIR:
 			if((st = dividir (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 			break;
 		case MULTIPLICAR:
 			if((st = multiplicar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
 		case JMP:
 			if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-				liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+				
 				imprimir_error(st);
 				return st;
 			}
@@ -110,7 +110,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		case JMPNEG:
 			if ((estado -> acc) < 0)
 				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+					
 					imprimir_error(st);
 					return st;
 				}
@@ -118,7 +118,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		case JMPZERO:
 			if (!(estado -> acc))
 				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+					
 					imprimir_error(st);
 					return st;
 				}
@@ -126,7 +126,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		case JNZ:
 			if ((estado -> acc))
 				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+					
 					imprimir_error(st);
 					return st;
 				}
@@ -134,20 +134,20 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		case DJNZ:
 			if (--(estado -> acc))
 				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+					
 					imprimir_error(st);
 					return st;
 				}
 			break;
 		default:
-			liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+			
 			imprimir_error(ST_ERROR_SIMPLETRON);
 			return ST_ERROR_SIMPLETRON;
 		}
 	}
 	
 	if (i >= cantidad_de_memoria) {
-		liberar_vector_de_punteros (instrucciones, cantidad_de_memoria);
+		
 		imprimir_error(ST_ERROR_SIMPLETRON);
 		return ST_ERROR_SIMPLETRON;
 	}
@@ -175,10 +175,9 @@ status_t leer (struct instruccion *** instrucciones, size_t operando) {
 }
 
 status_t escribir (struct instruccion *** instrucciones, size_t operando) {
-	fprintf(stdout, "%s %lu: ", MSJ_CONTENIDO_POSICION, operando);
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	fprintf(stdout, "%d", (*instrucciones)[operando] -> numero_dato);
+	fprintf(stdout, "%s %lu: %d\n", MSJ_CONTENIDO_POSICION, operando, (*instrucciones)[operando] -> numero_dato);
 	return ST_OK;
 }
 

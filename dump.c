@@ -55,7 +55,7 @@ status_t imprimir_registros (struct estado * estado, FILE * f_output) {
 	fprintf(f_output, "%s: %ld\n", MSJ_ACUMULADOR, estado -> acc);
 	fprintf(f_output, "%s: %lu\n", MSJ_CONTADOR, estado -> contador);
 	fprintf(f_output, "%s: %+05d\n", MSJ_INSTRUCCION, (estado -> instruccion_actual).numero_dato);
-	fprintf(f_output, "%s: %+05d\n", MSJ_OPCODE, (estado -> instruccion_actual).opcode);
+	fprintf(f_output, "%s: %+02d\n", MSJ_OPCODE, (estado -> instruccion_actual).opcode);
 	fprintf(f_output, "%s: %02lu\n", MSJ_OPERANDO, (estado -> instruccion_actual).operando);
 	return ST_OK;
 }
@@ -64,6 +64,7 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
 	size_t i;
 	if (instrucciones == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
+	fprintf(f_output, "\n%s:\n", MSJ_MEMORIA);
 	for (i = 0; i < COLUMNAS && i < cantidad_de_memoria; i++)
 		fprintf(f_output, "      %lu", i);
 	fputc('\n', f_output);
@@ -72,8 +73,9 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
 			fputc('\n', f_output);
 			fprintf(f_output, "%2lu  ", i);
 		}
-		fprintf(f_output, "%+5d  ", (*instrucciones)[i] -> numero_dato);
+		fprintf(f_output, "%+05d  ", (*instrucciones)[i] -> numero_dato);
 	}
+	fputc('\n', f_output);
 	return ST_OK;
 }
 

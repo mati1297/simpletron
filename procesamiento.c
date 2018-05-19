@@ -51,8 +51,8 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
-	
-	for (i = 0; fgets (buffer, MAX_CADENA + 2, fi); i++) {
+	/*ARREGLE PARA QUE LEA SOLAMENTE HASTA QUE LE DA LA MEMORIA*/
+	for (i = 0; i < params -> cantidad_de_memoria && fgets (buffer, MAX_CADENA + 2, fi); i++) {
 		
 		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
 			
@@ -63,12 +63,12 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			return st;
 		}
 		
-		for (j = LARGO_INSTRUCCION; buffer [j]; i++) 
+		for (j = LARGO_INSTRUCCION; buffer [j]; j++) 
 			if (!isspace (buffer[j])) {
 				
 				fclose (fi);
 				free (buffer);
-				buffer = NULL;
+				buffer = NULL; /*ERRORES*/
 				return ST_ERROR_INSTRUCCION_INVALIDA;
 			}
 		
@@ -83,12 +83,25 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
+		/*Lo vuelve siempre positivo porque sino cuando se convierte a size_t no lo convierte correctamente*/
+		if(((*memoria)[i] -> numero_dato) < 0)
+		(*memoria)[i] -> operando = (((*memoria)[i] -> numero_dato)*-1) % MAX_CANT_OPERANDOS;
+		else if(((*memoria)[i] -> numero_dato) >= 0)
 		(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % MAX_CANT_OPERANDOS;
 		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / MAX_CANT_OPERANDOS;
 		
 	}
 	free (buffer);
 	buffer = NULL;
+	
+	
+	 /*VE SI PUDO LEER TODO EL ARHCIVO O LE QUEDARON COSAS AFUERA*/
+	if (!feof(fi)) {
+		fclose(fi);
+		liberar_vector_de_punteros(memoria,cant);
+		puts("error");
+		return ST_ERROR_LECTURA_ARCHIVO;
+	}
 	
 	if (ferror (fi)) {
 		
@@ -222,7 +235,7 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 	
 	for (i = 0; i < params -> cantidad_de_memoria; i++) {
 	
-		printf ("%lu) ", i + 1);
+		printf ("%lu) ", i);
 		
 		if (fgets (buffer, LARGO_INSTRUCCION + 2, stdin) == NULL) {
 			

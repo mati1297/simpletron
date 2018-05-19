@@ -11,5 +11,6 @@
 #define MSJ_INSTRUCCION "Instruccion"
 #define MSJ_OPCODE "Opcode"
 #define MSJ_OPERANDO "Operando"
+#define MSJ_MEMORIA "MEMORIA"
 
 #endif
