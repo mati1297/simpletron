@@ -222,6 +222,8 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 	
 	for (i = 0; i < params -> cantidad_de_memoria; i++) {
 	
+		printf ("%lu) ", i + 1);
+		
 		if (fgets (buffer, LARGO_INSTRUCCION + 2, stdin) == NULL) {
 			
 			free (buffer);
