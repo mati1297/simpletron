@@ -52,7 +52,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	/*ARREGLE PARA QUE LEA SOLAMENTE HASTA QUE LE DA LA MEMORIA*/
-	for (i = 0; i < params -> cantidad_de_memoria && fgets (buffer, MAX_CADENA + 2, fi); i++) {
+	for (i = 0; i <= cant && fgets (buffer, MAX_CADENA + 2, fi); i++) {
 		
 		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
 			
@@ -62,6 +62,16 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			liberar_vector_de_punteros (memoria, cant);
 			return st;
 		}
+		
+		if (buffer[0] != '-' && buffer[0] != '+') {
+			
+			fclose (fi);
+			free (buffer);
+			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_INSTRUCCION_INVALIDA;
+		}
+		
 		
 		for (j = LARGO_INSTRUCCION; buffer [j]; j++) 
 			if (!isspace (buffer[j])) {
