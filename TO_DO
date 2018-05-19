@@ -15,3 +15,7 @@ y el tema del largo del nombre del archivo de entrada o salida no se si tratarlo
 Que archivos.c usan la estructura de instrucciones? practicamente todos xd, menos el de argumentos
 
 EN EL MAIN PONER QUE IMPRIMA INICIO DE EJECUCION Y FIN DE EJECUCION?? si dale
+
+
+DE MATI PARA MATI: terminar funcion PGUARDAR, completar los errores de funciones.c y cambiar /100 y %100 por la macro, pasar esas macros
+a archivo para acceder desde varios. 
