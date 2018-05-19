@@ -1,7 +1,7 @@
 #ifndef ERRORES_ESP__H
 #define ERRORES_ESP__H
 
-#define MAX_ERROR_STR 35
+#define MAX_ERROR_STR 50
 
 #define ERROR "Error"
 #define NO_HAY_ERROR "No hay error"
@@ -15,7 +15,6 @@
 #define MSJ_ERROR_BIN_OUTPUT_INCORRECTO /*No es un argumento valido para -of*/
 #define MSJ_ERROR_ARGUMENTO_INVALIDO "El argumento ingresado es inválido"
 #define MSJ_ERROR_INSTRUCCION_INVALIDA "La instrucción es inválida"
-#define MSJ_ERROR_DIMENSION  /*NO LOGRO ENCONTRAR DONDE LO PUSIMOS XD*/
 #define MSJ_ERROR_OPCOPDE_INVALIDO "Opcode inválido"
 #define MSJ_ERROR_LECTURA_ARCHIVO "No se pudo leer el archivo"
 
@@ -31,7 +30,6 @@ char error [][MAX_ERROR_STR] = {
 	MSJ_ERROR_BIN_OUTPUT_INCORRECTO,
 	MSJ_ERROR_ARGUMENTO_INVALIDO,
 	MSJ_ERROR_INSTRUCCION_INVALIDA,
-	MSJ_ERROR_DIMENSION,
 	MSJ_ERROR_OPCOPDE_INVALIDO,
 	MSJ_ERROR_LECTURA_ARCHIVO
 };

@@ -1,6 +1,8 @@
 #ifndef MESSAGES_ENG__H 
 #define MESSAGES_ENG__H 1
 
+#define MSJ_BIENVENIDA "Welcome to Simpletron"
+#define MSJ_SALIDA "The program has ended"
 #define MSJ_CONTENIDO_POSICION "Position content"
 #define MSJ_INGRESO_PALABRA "Enter a word"
 #define MSJ_REGISTROS "RECORDS"

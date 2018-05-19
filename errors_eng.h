@@ -1,7 +1,7 @@
 #ifndef ERRORS_ENG__H
 #define ERRORS_ENG__H
 
-#define MAX_ERROR_STR 35
+#define MAX_ERROR_STR 50
 
 #define ERROR "Error"
 #define NO_HAY_ERROR "There is no error"
@@ -15,7 +15,6 @@
 #define MSG_ERROR_BIN_OUTPUT_INCORRECTO 
 #define MSG_ERROR_INVALID_ARGUMENT "Invalid argument"
 #define MSG_ERROR_INVALID_INSTRUCTION "Invalid instruction"
-#define MSG_ERROR_DIMENSION 
 #define MSG_ERROR_INVALID_OPCODE "Invalid  opcode"
 #define MSG_ERROR_READING_FILE "File could not be read"
 
@@ -31,7 +30,6 @@ char error [][MAX_ERROR_STR] = {
 	MSG_ERROR_BIN_OUTPUT_INCORRECTO,
 	MSG_ERROR_INVALID_ARGUMENT,
 	MSG_ERROR_INVALID_INSTRUCTION,
-	MSG_ERROR_DIMENSION,
 	MSG_ERROR_INVALID_OPCODE,
 	MSG_ERROR_READING_FILE
 };

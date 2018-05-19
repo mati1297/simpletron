@@ -8,12 +8,10 @@ Aclarar que a instruccion le llamamos a todo, tanto al numero como al opcode com
 
 Liberar la memoria al despues de usarla o en caso de fallas (con la funcion en herramientas)
 
-donde se usa split_str?
-
 mati: aclarame en algun comentario que serian los errores que no completé
 
 y el tema del largo del nombre del archivo de entrada o salida no se si tratarlo como error
 
 Que archivos.c usan la estructura de instrucciones? practicamente todos xd, menos el de argumentos
 
-EN EL MAIN PONER QUE IMPRIMA INICIO DE EJECUCION Y FIN DE EJECUCION??
+EN EL MAIN PONER QUE IMPRIMA INICIO DE EJECUCION Y FIN DE EJECUCION?? si dale
