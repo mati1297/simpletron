@@ -15,6 +15,8 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
+	estado -> acc = 0;
+	
 	for (i = 0, estado -> contador = 0; i < cantidad_de_memoria; i++) {
 		
 		

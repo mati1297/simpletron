@@ -11,6 +11,7 @@
 #define DELIM ';'
 #define LARGO_INSTRUCCION 5
 #define MAX_CANT_OPERANDOS 100
+#define INSTRUCCION_POR_OMISION "+0000"
 
 status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * params);
 status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * params);

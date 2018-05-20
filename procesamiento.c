@@ -52,7 +52,12 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	/*ARREGLE PARA QUE LEA SOLAMENTE HASTA QUE LE DA LA MEMORIA*/
-	for (i = 0; i <= cant && fgets (buffer, MAX_CADENA + 2, fi); i++) {
+	for (i = 0; i < cant ; i++) {
+		
+		
+		/*Rellena si se pidio mas memoria de la necesaria*/
+		if(!(fgets (buffer, MAX_CADENA + 2, fi)))
+			strcpy(buffer, INSTRUCCION_POR_OMISION);
 		
 		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
 			fclose (fi);
@@ -102,9 +107,13 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / MAX_CANT_OPERANDOS;
 		
 	}
+	
+	
+	/*Si se pidio la memoria justa, lee de nuevo para poder llegar a EOF*/
+	fgets(buffer, MAX_CADENA +2, fi);
+	
 	free (buffer);
 	buffer = NULL;
-	
 	
 	 /*VE SI PUDO LEER TODO EL ARHCIVO O LE QUEDARON COSAS AFUERA*/
 	if (!feof (fi)) {
@@ -277,7 +286,7 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 		}
 		/*Validacion para que haya que poner signo y no mas de 5 digitos (contando signo)*/
 		
-		if (strlen (buffer) > 5 || (buffer [0] != '+' && buffer [0] != '-')) {
+		if (strlen (buffer) != 5 || (buffer [0] != '+' && buffer [0] != '-')) {
 			imprimir_error (ST_ERROR_ENTRADA_INVALIDA);
 			free (buffer);
 			buffer = NULL;
