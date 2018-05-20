@@ -20,9 +20,12 @@ status_t cortar_cadena (char ** cadena, char delim) {
 void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 	
 	if (mem) {
-		while (cant--)
+		while (cant--) {
 			free ((*mem) [cant]);
+			(*mem) [cant] = NULL;
+		}
 		free (*mem);
+		(*mem) = NULL;
 	}
 }
 

@@ -10,7 +10,7 @@
 #define MSJ_CONTADOR "Counter"
 #define MSJ_INSTRUCCION "Instruction"
 #define MSJ_OPCODE "Opcode"
-#define MSJ_OPERANDO "Operanding"
+#define MSJ_OPERANDO "Operator"
 #define MSJ_MEMORIA "MEMORY"
 
 #endif
