@@ -55,7 +55,6 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	for (i = 0; i <= cant && fgets (buffer, MAX_CADENA + 2, fi); i++) {
 		
 		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
-			
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
@@ -84,7 +83,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		
 		(*memoria)[i] -> numero_dato = strtol (buffer, &endp, 10); 
 		
-		if (*endp && *endp != ' ') {
+		if (*endp && *endp != ' ' && *endp != '\n') {
 			
 			fclose (fi);
 			free (buffer);
@@ -109,7 +108,6 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	if (!feof(fi)) {
 		fclose(fi);
 		liberar_vector_de_punteros(memoria,cant);
-		puts("error");
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
@@ -261,6 +259,14 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			buffer = NULL;
 			liberar_vector_de_punteros (memoria, cant);
 			return st;
+		}
+		/*Validacion para que haya que poner signo y no mas de 5 digitos (contando signo)*/
+		
+		if (strlen(buffer) > 5 || (buffer[0] != '+' && buffer[0] != '-')) {
+			free (buffer);
+			buffer = NULL;
+			liberar_vector_de_punteros (memoria, cant);
+			return ST_ERROR_ENTRADA_INVALIDA;
 		}
 		
 		aux = strtol (buffer, &endp, 10);

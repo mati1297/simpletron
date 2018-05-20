@@ -51,7 +51,7 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 status_t imprimir_registros (struct estado * estado, FILE * f_output) {
 	if (f_output == NULL || estado == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	fprintf(f_output, "%s:\n", MSJ_REGISTROS);
+	fprintf(f_output, "\n%s:\n", MSJ_REGISTROS);
 	fprintf(f_output, "%s: %ld\n", MSJ_ACUMULADOR, estado -> acc);
 	fprintf(f_output, "%s: %lu\n", MSJ_CONTADOR, estado -> contador);
 	fprintf(f_output, "%s: %+05d\n", MSJ_INSTRUCCION, (estado -> instruccion_actual).numero_dato);
