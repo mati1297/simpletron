@@ -12,5 +12,6 @@
 #define MSJ_OPCODE "Opcode"
 #define MSJ_OPERANDO "Operando"
 #define MSJ_MEMORIA "MEMORIA"
+#define ARCHIVO_AYUDA "ayuda.txt"
 
 #endif

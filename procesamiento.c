@@ -108,7 +108,6 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		
 	}
 	
-	
 	/*Si se pidio la memoria justa, lee de nuevo para poder llegar a EOF*/
 	fgets(buffer, MAX_CADENA +2, fi);
 	
@@ -195,15 +194,6 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 			(*memoria)[i] -> operando = ((*memoria)[i] -> numero_dato) % MAX_CANT_OPERANDOS;
 		(*memoria)[i] -> opcode = ((*memoria)[i] -> numero_dato) / MAX_CANT_OPERANDOS;
 		
-		/* Avanza el lugar de '\n' */
-		if (fseek (fi, 1, SEEK_CUR) == -1) {
-			imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-			fclose (fi);
-			free (buffer);
-			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
-			return ST_ERROR_LECTURA_ARCHIVO;
-		}
 		j++;
 	}
 	
@@ -284,8 +274,8 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			liberar_vector_de_punteros (memoria, cant);
 			return st;
 		}
-		/*Validacion para que haya que poner signo y no mas de 5 digitos (contando signo)*/
 		
+		/*Validacion para que haya que poner signo y no mas de 5 digitos (contando signo)*/
 		if (strlen (buffer) != 5 || (buffer [0] != '+' && buffer [0] != '-')) {
 			imprimir_error (ST_ERROR_ENTRADA_INVALIDA);
 			free (buffer);

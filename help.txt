@@ -1,0 +1,38 @@
+You have entered -h so the following lines will help you through the parameters for Simpletron's
+compilation.
+
+* -m :
+    the argument next to "-m" is the amount of memory you request for Simpletron (only integers).
+    If you don't enter the parameter, the default amount is 50 words, meaning word as an
+    instruction. You may enter at most 100 words.
+
+* -i :
+    if you enter "-i" the following parameter is the name of a file from which the words will be
+    read. If you don't enter this parameter, the words will be read from stdin (usually your
+    keyboard).
+
+* -if :
+    next to "-if" parameter there are two paths to follow. If you wish that the words to be read
+    are to be represented by a binary sequence, type "-if bin"; if you wish that the words are to
+    be read as a sequence of decimal numbers, enter "-if txt". Only enter this parameter if there
+    is a file to be read, not stdin. The default argument is txt.
+
+* -o :
+    if you wish for the dump (the program summary) to be stored in a file, enter "-o <filename>".
+    If you don't enter this parameter, the dump will be printed in stdout (your screen).
+
+* -of :
+    next to "-of" parameter you have two choices: either you enter "-of bin" for the dump to be
+    printed in a binary sequence, or "-of txt" for the dump to be printed in regular text format.
+    Only enter this parameter if the dump is to be printed into a file, not stdout. The default
+    argument is txt.
+
+Examples:
+
+./simpletron -m 33 -i instructions -if txt
+
+./simpletron -i instructions.bin -if bin -o output.txt
+
+./simpletron -m 11 -o output -of bin
+
+./simpletron

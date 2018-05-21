@@ -3,6 +3,7 @@
 #include <string.h>
 #include "types.h"
 #include "herramientas.h"
+#include "idioma.h"
 
 status_t cortar_cadena (char ** cadena, char delim) {
 	

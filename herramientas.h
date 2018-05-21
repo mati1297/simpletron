@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
+#include "idioma.h"
 
-#define ARCHIVO_AYUDA "ayuda.txt"
 #define MAX_CADENA 100
 
 status_t cortar_cadena (char **, char);
