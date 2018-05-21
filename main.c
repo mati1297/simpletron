@@ -14,8 +14,11 @@ int main (int argc, const char * argv [])
 	struct estado estado_actual;
 	status_t st;
 	
-	if (procesar_argumentos (argv, &params, argc) != ST_OK)
+	if ((st = procesar_argumentos (argv, &params, argc)) != ST_OK && st != ST_HELP)
 		return EXIT_FAILURE;
+		
+	if (st == ST_HELP)
+		return EXIT_SUCCESS;
 	
 	if (params.bin_input == TRUE) {
 		if (procesamiento_bin (&instrucciones, &params) != ST_OK)

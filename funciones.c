@@ -102,6 +102,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 				imprimir_error(st);
 				return st;
 			}
+			break;
 		case JMP:
 			if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
 				
