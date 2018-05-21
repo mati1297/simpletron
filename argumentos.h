@@ -10,7 +10,6 @@
 
 #define MAX_ARGUMENTOS 11
 #define MEMORIA_POR_OMISION 50
-#define MAX_STR 30
 #define TXT_ARG_MEMORIA "-m"
 #define TXT_ARG_FILE_INPUT "-i"
 #define TXT_ARG_BIN_INPUT "-if"

@@ -1,0 +1,20 @@
++1019 ; leo el dato
++2019 ; cargo en acc la pos 19
++3318 ; multiplico por resultado anterior
++2118 ; guardo el acc en 18
++2019 ; leo el dato en pos 19
++3117 ; resto 1 (restador)
++4209 ; si es 0 el acc, voy a pos 09
++2119 ; guardo el acc en 19
++4002 ; voy a 02
++1118 ; imprimo pos 18
++4500 ; termina
++0000
++0000
++0000
++0000
++0000
++0000
++0001 ; restador
++0001 ; el producto
++0000
