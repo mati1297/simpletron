@@ -6,7 +6,6 @@
 #include "herramientas.h"
 #include "argumentos.h"
 #include "types.h"
-#include "error.h"
 
 
 /* Esta función recibe un puntero a la estructura con la informacion sobre
@@ -19,40 +18,25 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	FILE * fi;
 	char * buffer, * endp;
 	char delim = DELIM;
-	size_t i, j, cant;
+	size_t i, j;
 	status_t st;
 	
 	if (memoria == NULL || params == NULL) {
-		imprimir_error (ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
-	
-	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-		return ST_ERROR_MEMORIA_INVALIDA;
-	}
-	
-	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
-		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
-			imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-			liberar_vector_de_punteros (memoria, cant);
-			return ST_ERROR_MEMORIA_INVALIDA;
-		}
+
 	
 	if ((fi = fopen (params -> file_input, "rt")) == NULL) {
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 		
 	if ((buffer = (char *) malloc (sizeof (char) * MAX_CADENA)) == NULL) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
 		fclose (fi);
-		liberar_vector_de_punteros (memoria, cant);
+		
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	/*ARREGLE PARA QUE LEA SOLAMENTE HASTA QUE LE DA LA MEMORIA*/
-	for (i = 0; i < cant ; i++) {
+	for (i = 0; i < params -> cantidad_de_memoria ; i++) {
 		
 		
 		/*Rellena si se pidio mas memoria de la necesaria*/
@@ -63,8 +47,8 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
-			imprimir_error (st);
-			liberar_vector_de_punteros (memoria, cant);
+			
+			
 			return st;
 		}
 		
@@ -72,8 +56,8 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
-			imprimir_error (ST_ERROR_INSTRUCCION_INVALIDA);
-			liberar_vector_de_punteros (memoria, cant);
+			
+			
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
@@ -82,8 +66,8 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 				fclose (fi);
 				free (buffer);
 				buffer = NULL;
-				imprimir_error (ST_ERROR_INSTRUCCION_INVALIDA);
-				liberar_vector_de_punteros (memoria, cant);
+				
+				
 				return ST_ERROR_INSTRUCCION_INVALIDA;
 			}
 		
@@ -94,8 +78,8 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
-			imprimir_error (ST_ERROR_INSTRUCCION_INVALIDA);
-			liberar_vector_de_punteros (memoria, cant);
+			
+			
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
@@ -117,14 +101,10 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 	 /*VE SI PUDO LEER TODO EL ARHCIVO O LE QUEDARON COSAS AFUERA*/
 	if (!feof (fi)) {
 		fclose (fi);
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
 	if (ferror (fi)) {
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-		liberar_vector_de_punteros (memoria, cant);
 		fclose (fi);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
@@ -143,35 +123,21 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 	
 	FILE * fi;
 	char * buffer, * endp;
-	size_t i = 0, j = 0, cant;
+	size_t i = 0, j = 0;
 	
 	if (memoria == NULL || params == NULL) {
-		imprimir_error (ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
-	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-		return ST_ERROR_MEMORIA_INVALIDA;
-	}
-	
-	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
-		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
-			imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-			liberar_vector_de_punteros (memoria, cant);
-			return ST_ERROR_MEMORIA_INVALIDA;
-		}
 		
 	if ((fi = fopen (params -> file_input, "rb")) == NULL) {
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-		liberar_vector_de_punteros (memoria, cant);
+		
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
 	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 1))) == NULL) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
 		fclose (fi);
-		liberar_vector_de_punteros (memoria, cant);
+		
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
@@ -180,11 +146,11 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 		(*memoria)[j] -> numero_dato = strtol (buffer, &endp, 10);
 		
 		if (*endp) {
-			imprimir_error (ST_ERROR_INSTRUCCION_INVALIDA);
+			
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
+			
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
@@ -202,15 +168,12 @@ status_t procesamiento_bin (struct instruccion *** memoria, struct parametros * 
 	
 	if (!feof (fi)) {
 		fclose (fi);
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
-		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
 	if (ferror (fi)) {
-		imprimir_error (ST_ERROR_LECTURA_ARCHIVO);
 		fclose (fi);
-		liberar_vector_de_punteros (memoria, cant);
+		
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
 	
@@ -229,28 +192,15 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 	char * buffer, * endp;
 	long aux;
 	status_t st;
-	size_t i, cant;
+	size_t i;
 	
 	if (memoria == NULL || params == NULL) {
-		imprimir_error (ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
-	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-		return ST_ERROR_MEMORIA_INVALIDA;
-	}
 	
-	for (cant = 0; cant < params -> cantidad_de_memoria; cant++)
-		if (!((*memoria) [cant] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
-			imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-			liberar_vector_de_punteros (memoria, cant);
-			return ST_ERROR_MEMORIA_INVALIDA;
-		}
 	
 	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 2))) == NULL) {
-		imprimir_error (ST_ERROR_MEMORIA_INVALIDA);
-		liberar_vector_de_punteros (memoria, cant);
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
@@ -260,37 +210,33 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 		printf ("%lu) ", i);
 		
 		if (fgets (buffer, LARGO_INSTRUCCION + 2, stdin) == NULL) {
-			imprimir_error (ST_ERROR_ENTRADA_INVALIDA);
 			free (buffer);
 			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_ENTRADA_INVALIDA;
 		}
 		
 		if ((st = cortar_cadena (&buffer, '\n')) != ST_OK) {
-			imprimir_error (st);
+			
 			free (buffer);
 			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
+			
 			return st;
 		}
 		
 		/*Validacion para que haya que poner signo y no mas de 5 digitos (contando signo)*/
 		if (strlen (buffer) != 5 || (buffer [0] != '+' && buffer [0] != '-')) {
-			imprimir_error (ST_ERROR_ENTRADA_INVALIDA);
 			free (buffer);
 			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
 			return ST_ERROR_ENTRADA_INVALIDA;
 		}
 		
 		aux = strtol (buffer, &endp, 10);
 		
 		if (*endp) {
-			imprimir_error (ST_ERROR_INSTRUCCION_INVALIDA);
+			
 			free (buffer);
 			buffer = NULL;
-			liberar_vector_de_punteros (memoria, cant);
+			
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 			

@@ -41,18 +41,15 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 	/* Se valida que los punteros recibidos no sean nulos, que los argumentos
 	 * ingresados por el usuario no sean más de los debidos y que la función
 	 * cargar_argumentos_por_omision haya funcionado correctamente */
-	if (argv == NULL || vec_argv == NULL) {
-		imprimir_error (ST_ERROR_PUNTERO_NULO);
+	if (argv == NULL || vec_argv == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	}
-	if (argc > MAX_ARGUMENTOS) {
-		imprimir_error (ST_ERROR_CANTIDAD_ARGUMENTOS);
+		
+	if (argc > MAX_ARGUMENTOS)
 		return ST_ERROR_CANTIDAD_ARGUMENTOS;
-	}
-	if ((st = cargar_argumentos_por_omision(argv)) != ST_OK) {
-		imprimir_error (st);
+		
+	if ((st = cargar_argumentos_por_omision(argv)) != ST_OK)
 		return st;
-	}
+	
 		
 	/* Se empieza en 1 para no validar la ejecución del programa */
 	for (i = 1; i < argc; i++) {
@@ -69,23 +66,20 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 			case ARG_MEMORIA:
 				i++;
 				argv -> cantidad_de_memoria = strtol (vec_argv[i], &endp, 10);
-				if (*endp) {
-					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+				if (*endp) 
 					return ST_ERROR_ARGUMENTO_INVALIDO;
-				}
-				if (argv -> cantidad_de_memoria <= 0) {
-					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+
+				if (argv -> cantidad_de_memoria <= 0)
 					return ST_ERROR_ARGUMENTO_INVALIDO;
-				}
+
 				break;
 			
 			/* Se guarda el nombre del archivo de entrada */
 			case ARG_FILE_INPUT:
 				i++;
-				if (strlen(vec_argv[i]) > (MAX_STR - 1)) {
-					imprimir_error (ST_ERROR_FILE_INPUT_DEMASIADO_LARGO);
-					return ST_ERROR_FILE_INPUT_DEMASIADO_LARGO; /*en realidad no es un error. deberiamos decirle al usuario que cambie el nombre o algo asi*/
-				}
+				if (strlen(vec_argv[i]) > (MAX_STR - 1)) 
+					return ST_ERROR_FILE_INPUT_DEMASIADO_LARGO;
+				
 				strcpy(argv -> file_input, vec_argv[i]);
 				argv -> stdin_input = FALSE;
 				break;
@@ -94,18 +88,15 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				i++;
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
 					argv -> bin_input = TRUE;
-				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO)) {
-					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO))
 					return ST_ERROR_ARGUMENTO_INVALIDO;
-				}
 				break;
 				
 			case ARG_FILE_OUTPUT:
 				i++;
-				if (strlen(vec_argv[i]) > (MAX_STR - 1)) {
-					imprimir_error (ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO);
+				if (strlen(vec_argv[i]) > (MAX_STR - 1))
 					return ST_ERROR_FILE_OUTPUT_DEMASIADO_LARGO;
-				}
+					
 				strcpy(argv -> file_output, vec_argv[i]);
 				argv -> stdout_output = FALSE;
 				break;
@@ -114,21 +105,18 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				i++;
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
 					argv -> bin_output = TRUE;
-				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO)) {
-					imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+					
+				else if (strcmp (vec_argv[i], TXT_INDICADOR_TEXTO)) 
 					return ST_ERROR_ARGUMENTO_INVALIDO;
-				}
+					
 				break;
 				
 			case ARG_HELP:
-				if ((st = imprimir_ayuda ()) != ST_OK) {
-					imprimir_error (st);
+				if ((st = imprimir_ayuda ()) != ST_OK)
 					return st;
-				}
 				return ST_HELP;
-				
+				break;
 			default:
-				imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
 				return ST_ERROR_ARGUMENTO_INVALIDO;
 		}
 	}
@@ -136,14 +124,11 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 	/*sujeto a revision lo siguiente*/
 	/* corregido, queda puesto aca esto no? */
 	
-	if (argv -> stdin_input == TRUE && argv -> bin_input == TRUE) {
-		imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+	if (argv -> stdin_input == TRUE && argv -> bin_input == TRUE)
 		return ST_ERROR_ARGUMENTO_INVALIDO;
-	}
-	if (argv -> stdout_output == TRUE && argv -> bin_output == TRUE) {
-		imprimir_error (ST_ERROR_ARGUMENTO_INVALIDO);
+
+	if (argv -> stdout_output == TRUE && argv -> bin_output == TRUE)
 		return ST_ERROR_ARGUMENTO_INVALIDO;
-	}
 		
 	return ST_OK;
 }

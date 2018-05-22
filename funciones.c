@@ -9,11 +9,8 @@
 status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado) {
 	status_t st;
 	size_t i;
-	if (instrucciones == NULL || estado == NULL) {
-		
-		imprimir_error(ST_ERROR_PUNTERO_NULO);
+	if (instrucciones == NULL || estado == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	}
 	
 	estado -> acc = 0;
 	
@@ -27,134 +24,83 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		if((*instrucciones)[i] -> opcode == HALT) /*Lo pongo aca porque no se como hacerlo en switch*/
 			break;
 			
-		if((*instrucciones)[i] -> operando >= cantidad_de_memoria) {
-			
-			imprimir_error(ST_ERROR_SIMPLETRON);
+		if((*instrucciones)[i] -> operando >= cantidad_de_memoria)
 			return ST_ERROR_SIMPLETRON;
-		}
+
 		
 		switch ((*instrucciones)[i] -> opcode) {
-		case LEER:
-			if((st = leer (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case ESCRIBIR:
-			if((st = escribir (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case CARGAR:
-			if((st = cargar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-		case GUARDAR:
-			if((st = guardar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case PCARGAR:
-			if((st = pcargar(instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case PGUARDAR:
-			if((st = pguardar (instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case SUMAR:
-			if((st = sumar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case RESTAR:
-			if((st = restar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case DIVIDIR:
-			if((st = dividir (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case MULTIPLICAR:
-			if((st = multiplicar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case JMP:
-			if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-				
-				imprimir_error(st);
-				return st;
-			}
-			break;
-		case JMPNEG:
-			if ((estado -> acc) < 0)
-				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					
-					imprimir_error(st);
+			case LEER:
+				if((st = leer (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK)
 					return st;
-				}
-			break;
-		case JMPZERO:
-			if (!(estado -> acc))
-				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					
-					imprimir_error(st);
-					return st;
-				}
-			break;
-		case JNZ:
-			if ((estado -> acc))
-				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					
-					imprimir_error(st);
-					return st;
-				}
-			break;
-		case DJNZ:
-			if (--(estado -> acc))
-				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) {
-					
-					imprimir_error(st);
-					return st;
-				}
-			break;
-		default:
+				break;
 			
-			imprimir_error(ST_ERROR_SIMPLETRON);
-			return ST_ERROR_SIMPLETRON;
-		}
+			case ESCRIBIR:
+				if((st = escribir (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK)
+					return st;
+				break;
+			case CARGAR:
+				if((st = cargar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
+					return st;
+			case GUARDAR:
+				if((st = guardar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
+					return st;
+				break;
+			case PCARGAR:
+				if((st = pcargar(instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
+					return st;
+				break;
+			case PGUARDAR:
+				if((st = pguardar (instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
+					return st;
+				break;
+			case SUMAR:
+				if((st = sumar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
+					return st;
+				break;
+			case RESTAR:
+				if((st = restar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
+					return st;
+				break;
+			case DIVIDIR:
+				if((st = dividir (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
+					return st;
+				break;
+			case MULTIPLICAR:
+				if((st = multiplicar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
+					return st;
+				break;
+			case JMP:
+				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK)
+					return st;
+				break;
+			case JMPNEG:
+				if ((estado -> acc) < 0)
+					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
+						return st;
+				break;
+			case JMPZERO:
+				if (!(estado -> acc))
+					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
+						return st;
+				break;
+			case JNZ:
+				if ((estado -> acc))
+					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK)
+						return st;
+				break;
+			case DJNZ:
+				if (--(estado -> acc))
+					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
+						return st;
+				break;
+			default:
+				return ST_ERROR_SIMPLETRON;
+		}	
 	}
 	
-	if (i >= cantidad_de_memoria) {
-		
-		imprimir_error(ST_ERROR_SIMPLETRON);
+	if (i >= cantidad_de_memoria) 
 		return ST_ERROR_SIMPLETRON;
-	}
-	
+		
 	return ST_OK;
 }
 

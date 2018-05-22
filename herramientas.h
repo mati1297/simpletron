@@ -11,5 +11,6 @@
 status_t cortar_cadena (char **, char);
 void liberar_vector_de_punteros (struct instruccion ***, size_t);
 status_t imprimir_ayuda (void);
+status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant);
 
 #endif

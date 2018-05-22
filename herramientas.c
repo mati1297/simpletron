@@ -17,6 +17,22 @@ status_t cortar_cadena (char ** cadena, char delim) {
 	
 	return ST_OK;
 }
+status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant) {
+	if (memoria == NULL || params == NULL) {
+		return ST_ERROR_PUNTERO_NULO;
+	}
+	
+	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
+		*memoria = NULL;
+		return ST_ERROR_MEMORIA_INVALIDA;
+	}
+	
+	for ((*cant) = 0; (*cant) < params -> cantidad_de_memoria; (*cant)++)
+		if (!((*memoria) [(*cant)] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
+			return ST_ERROR_MEMORIA_INVALIDA;
+		}
+	return ST_OK;
+}
 
 void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 	

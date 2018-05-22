@@ -12,16 +12,13 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 	FILE * f_output;
 	status_t st;
 	if (estado == NULL || instrucciones == NULL || parametros == NULL) {
-		imprimir_error(ST_ERROR_PUNTERO_NULO);
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	if (parametros -> bin_output == TRUE) {
 		if((f_output = fopen(parametros -> file_output, "wb")) == NULL) {
-			imprimir_error(ST_ERROR_LECTURA_ARCHIVO);
 			return ST_ERROR_LECTURA_ARCHIVO;
 		}
 		if ((st = imprimir_bin(estado, f_output, instrucciones, parametros -> cantidad_de_memoria)) != ST_OK) {
-			imprimir_error(st);
 			return st;
 		}
 	}
@@ -31,16 +28,13 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 			f_output = stdout;
 		else {
 			if((f_output = fopen(parametros -> file_output, "w")) == NULL) {
-				imprimir_error(ST_ERROR_LECTURA_ARCHIVO);
 				return ST_ERROR_LECTURA_ARCHIVO;
 			}
 		}
 		if((st = imprimir_registros (estado, f_output)) != ST_OK) {
-			imprimir_error (st);
 			return st;
 		}
 		if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK) {
-			imprimir_error (st);
 			return st;
 		}
 	}
