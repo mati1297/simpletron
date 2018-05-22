@@ -6,11 +6,10 @@
 #include "error.h"
 #include "herramientas.h"
 
-/* Recibe la estructura de los parámetros por puntero para no tener que
- * copiarla en memoria y carga los parámetros ingresados por el usuario
- * y en caso no se haya ingresado algun argumento quedará el valor
- * predeterminado. Devuelve el estado por la interfaz para informar de
- * haber algún error */
+/* Recibe la estructura de los parámetros por puntero y carga los
+ * parámetros ingresados por el usuario. En caso no se haya ingresado
+ * algún argumento quedará el valor predeterminado. Devuelve el estado
+ * por la interfaz para informar de haber algún error */
 status_t cargar_argumentos_por_omision (struct parametros * argv) {
 	
 	if (argv == NULL)
@@ -84,6 +83,7 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				argv -> stdin_input = FALSE;
 				break;
 			
+			/* Indica que el archivo de entrada es en formato binario */
 			case ARG_BIN_INPUT:
 				i++;
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
@@ -92,6 +92,7 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 					return ST_ERROR_ARGUMENTO_INVALIDO;
 				break;
 				
+			/* Se guarda el nombre del archivo de salida */
 			case ARG_FILE_OUTPUT:
 				i++;
 				if (strlen(vec_argv[i]) > (MAX_STR - 1))
@@ -100,7 +101,8 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				strcpy(argv -> file_output, vec_argv[i]);
 				argv -> stdout_output = FALSE;
 				break;
-					
+				
+			/* Indica que el archivo de salida es en formato binario */
 			case ARG_BIN_OUTPUT:
 				i++;
 				if (!strcmp(vec_argv[i], TXT_INDICADOR_BINARIO))
@@ -111,6 +113,7 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 					
 				break;
 				
+			/* Llama a la función de impresión de la ayuda */
 			case ARG_HELP:
 				if ((st = imprimir_ayuda ()) != ST_OK)
 					return st;
@@ -120,9 +123,6 @@ status_t procesar_argumentos (const char * vec_argv [], struct parametros * argv
 				return ST_ERROR_ARGUMENTO_INVALIDO;
 		}
 	}
-	
-	/*sujeto a revision lo siguiente*/
-	/* corregido, queda puesto aca esto no? */
 	
 	if (argv -> stdin_input == TRUE && argv -> bin_input == TRUE)
 		return ST_ERROR_ARGUMENTO_INVALIDO;

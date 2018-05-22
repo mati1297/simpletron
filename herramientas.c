@@ -5,6 +5,10 @@
 #include "herramientas.h"
 #include "idioma.h"
 
+/* Recibe por puntero una cadena y un delimitador. Recorta la cadena en
+ * el delimitador indicado, dejando la parte del principio hasta el delimitador,
+ * reemplazándolo por el \0. En caso de un error o que todo funcione en
+ * orden lo informa a través de la interfaz */
 status_t cortar_cadena (char ** cadena, char delim) {
 	
 	char * ptr;
@@ -17,6 +21,12 @@ status_t cortar_cadena (char ** cadena, char delim) {
 	
 	return ST_OK;
 }
+
+/* Recibe por puntero una estructura con la información de las instrucciones,
+ * otra estructura con la información de los parámetros y la cantidad de
+ * estructuras cargadas en memoria. Pide la memoria para las estructuras
+ * que contienen las instrucciones. En caso de un error o que todo funcione en
+ * orden lo informa a través de la interfaz */
 status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant) {
 	if (memoria == NULL || params == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
@@ -34,6 +44,9 @@ status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct p
 	return ST_OK;
 }
 
+/* Recibe por puntero una estructura con la información de las instrucciones
+ * y la cantidad de estructuras cargadas en memoria. Libera el vector de
+ * punteros a estructuras. No devuelve nada */
 void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 	
 	if (mem) {
@@ -46,6 +59,9 @@ void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 	}
 }
 
+/* No recibe nada. Imprime un archivo con ayuda para la ejecución del
+ * programa por stdout. En caso de un error o que todo funcione en orden
+ * lo informa a través de la interfaz */
 status_t imprimir_ayuda (void) {
 	FILE * fhelp;
 	char * buffer;

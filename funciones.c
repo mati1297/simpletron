@@ -6,6 +6,12 @@
 #include "procesamiento.h"
 #include "error.h"
 
+/* Recibe la cantidad de memoria pedida por el usuario y por puntero las
+ * estruturas con el estado actual de Simpletron y las instrucciones
+ * ingresadas por el usuario. La función se encarga de ejecutar los opcodes
+ * adecuados en el orden que lo indique la estructura de instrucciones.
+ * En caso de que alguna de las funciones llamadas falle, que haya un error
+ * local, o que todo funcione en orden, devuelve un estado por la interfaz */
 status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado) {
 	status_t st;
 	size_t i;
@@ -21,7 +27,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		estado -> instruccion_actual = *(*instrucciones)[i];
 		(estado -> contador)++;
 		
-		if((*instrucciones)[i] -> opcode == HALT) /*Lo pongo aca porque no se como hacerlo en switch*/
+		if((*instrucciones)[i] -> opcode == HALT)
 			break;
 			
 		if((*instrucciones)[i] -> operando >= cantidad_de_memoria)
@@ -104,6 +110,11 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y el operando actual. Lee por pantalla el dato ingresado por
+ * el usuario y lo guarda como una nueva instrucción en el vector de punteros
+ * a estructuras, reemplazando lo que esté allí. En caso de un error o que
+ * todo funcione en orden lo informa a través de la interfaz */
 status_t leer (struct instruccion *** instrucciones, size_t operando) {
 	char cadena_aux [LARGO_INSTRUCCION + 2], *endp;
 	int numero_aux;
@@ -123,6 +134,10 @@ status_t leer (struct instruccion *** instrucciones, size_t operando) {
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y el operando actual. Imprime por stdout la instrucción guardada
+ * en el operando indicado. En caso de un error o que todo funcione en orden
+ * lo informa a través de la interfaz */
 status_t escribir (struct instruccion *** instrucciones, size_t operando) {
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -130,6 +145,10 @@ status_t escribir (struct instruccion *** instrucciones, size_t operando) {
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Guarda en el acumulador
+ * el valor de la instrucción del operando actual. En caso de un error o
+ * que todo funcione en orden lo informa a través de la interfaz */
 status_t cargar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -137,6 +156,10 @@ status_t cargar (struct instruccion *** instrucciones, size_t operando, long * a
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Guarda en la posición que
+ * indica el operando el valor de el acumulador. En caso de un error o
+ * que todo funcione en orden lo informa a través de la interfaz */
 status_t guardar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	int aux;
 	if (instrucciones == NULL || acc == NULL)
@@ -150,9 +173,11 @@ status_t guardar (struct instruccion *** instrucciones, size_t operando, long * 
 	return ST_OK;
 }
 
-
-/*FALTA PCARGAR Y PGUARDAR*/
-
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Suma el valor guardado
+ * en la posición que indica el operando con la del acumulador,
+ * sobreescribiendo lo que estaba en este. En caso de un error o que todo
+ * funcione en orden lo informa a través de la interfaz */
 status_t sumar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -160,6 +185,11 @@ status_t sumar (struct instruccion *** instrucciones, size_t operando, long * ac
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Resta el valor guardado
+ * en la posición que indica el operando con la del acumulador,
+ * sobreescribiendo lo que estaba en este. En caso de un error o que todo
+ * funcione en orden lo informa a través de la interfaz */
 status_t restar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -167,6 +197,11 @@ status_t restar (struct instruccion *** instrucciones, size_t operando, long * a
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Divide el valor guardado
+ * en la posición que indica el operando con la del acumulador,
+ * sobreescribiendo lo que estaba en este. En caso de un error o que todo
+ * funcione en orden lo informa a través de la interfaz */
 status_t dividir (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -174,6 +209,11 @@ status_t dividir (struct instruccion *** instrucciones, size_t operando, long * 
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, y el operando actual. Multiplica el valor guardado
+ * en la posición que indica el operando con la del acumulador,
+ * sobreescribiendo lo que estaba en este. En caso de un error o que todo
+ * funcione en orden lo informa a través de la interfaz */
 status_t multiplicar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -181,6 +221,10 @@ status_t multiplicar (struct instruccion *** instrucciones, size_t operando, lon
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al número de instrucción actual, y el operando actual. Hace
+ * un "salto" a la instrucción que se le indica enn el operando. En caso
+ * de un error o que todo funcione en orden lo informa a través de la interfaz */
 status_t jmp (struct instruccion *** instrucciones, size_t operando, size_t * i) {
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -188,6 +232,11 @@ status_t jmp (struct instruccion *** instrucciones, size_t operando, size_t * i)
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, la cantidad de memoria pedida por el usuario
+ * y el operando actual. Guarda por puntero el valor del operando en el
+ * acumulador. En caso de un error o que todo funcione en orden lo informa
+ * a través de la interfaz */
 status_t pcargar (struct instruccion *** instrucciones, long cantidad_de_memoria, size_t operando, long * acc) {
 	int aux;
 	if (instrucciones == NULL || acc == NULL)
@@ -198,6 +247,11 @@ status_t pcargar (struct instruccion *** instrucciones, long cantidad_de_memoria
 	return ST_OK;
 }
 
+/* Recibe un puntero a la estructura con los comandos ingresados por el
+ * usuario y al acumulador, la cantidad de memoria pedida por el usuario
+ * y el operando actual. Guarda por puntero el valor del acumulador en la
+ * instrucción indicada por el operando. En caso de un error o que todo
+ * funcione en orden lo informa a través de la interfaz */
 status_t pguardar (struct instruccion *** instrucciones, long cantidad_de_memoria, size_t operando, long * acc) {
 	int aux;
 	if (instrucciones == NULL || acc == NULL)
