@@ -6,6 +6,9 @@
 #include "funciones.h"
 #include "procesamiento.h"
 #include "idioma.h"
+#include "error.h"
+#include "simpletron.h"
+#include "main.h"
 
 /* Recibe por puntero las estructuras conteniendo los datos sobre el estado
  * de Simpletron, sobre las instrucciones que corrieron en el programa y

@@ -1,8 +1,8 @@
 #ifndef ERRORS_ENG__H
 #define ERRORS_ENG__H
 
-#define ERROR "Error"
-#define NO_HAY_ERROR "There is no error"
+#define MSJ_PRE_ERROR "Error"
+#define MSJ_NO_ERROR "There is no error"
 #define MSJ_ERROR_PUNTERO_NULO "a null pointer has been encountered"
 #define MSJ_ERROR_CANTIDAD_DE_ARGS "invalid argument quantity"
 #define MSJ_ERROR_MEMORIA_INSUFICIENTE "there is not enough memory"

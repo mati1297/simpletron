@@ -3,9 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "main.h"
 #include "herramientas.h"
 #include "argumentos.h"
 #include "types.h"
+#include "error.h"
+#include "simpletron.h"
 
 
 /* Esta función recibe un puntero a la estructura con la informacion sobre
@@ -43,7 +46,7 @@ status_t procesamiento_txt (struct instruccion *** memoria, struct parametros * 
 		if(!(fgets (buffer, MAX_CADENA + 2, fi)))
 			strcpy(buffer, INSTRUCCION_POR_OMISION);
 		
-		if ((st = cortar_cadena (&buffer, delim)) != ST_OK) {
+		if ((st = cortar_cadena (buffer, delim)) != ST_OK) {
 			fclose (fi);
 			free (buffer);
 			buffer = NULL;
@@ -215,7 +218,7 @@ status_t procesamiento_stdin (struct instruccion *** memoria, struct parametros 
 			return ST_ERROR_ENTRADA_INVALIDA;
 		}
 		
-		if ((st = cortar_cadena (&buffer, '\n')) != ST_OK) {
+		if ((st = cortar_cadena (buffer, '\n')) != ST_OK) {
 			
 			free (buffer);
 			buffer = NULL;

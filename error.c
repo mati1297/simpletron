@@ -5,8 +5,8 @@
 
 void imprimir_error (status_t st) {
 	
-	char error [][MAX_ERROR_STR] = {
-	NO_HAY_ERROR,
+	char * error [MAX_ERROR_STR] = {
+	MSJ_NO_ERROR,
 	MSJ_ERROR_PUNTERO_NULO,
 	MSJ_ERROR_CANTIDAD_DE_ARGS,
 	MSJ_ERROR_MEMORIA_INSUFICIENTE,
@@ -20,5 +20,5 @@ void imprimir_error (status_t st) {
 };
 	
 	if(st != ST_OK)
-		fprintf (stderr, "%s: %s\n", ERROR, error [st]);
+		fprintf (stderr, "%s: %s\n", MSJ_PRE_ERROR, error [st]);
 } 

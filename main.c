@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 #include "argumentos.h"
 #include "types.h"
 #include "dump.h"
 #include "procesamiento.h"
 #include "funciones.h"
 #include "herramientas.h"
+#include "error.h"
+#include "simpletron.h"
+
 
 /* Recibe los argumentos ingresados por el usuario y la cantidad de argumentos
  * ingresados, incluyendo la ejecución del programa. Llama a las funciones
@@ -25,6 +29,8 @@ int main (int argc, const char * argv [])
 	}
 		
 	if (st == ST_HELP)
+		if ((st = imprimir_ayuda (stderr)) != ST_OK)
+			return EXIT_FAILURE;
 		return EXIT_SUCCESS;
 		
 	if ((st = pedir_memoria_vector_punteros(&instrucciones, &params, &cant)) != ST_OK) {

@@ -3,14 +3,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 #include "types.h"
 #include "idioma.h"
+#include "error.h"
+#include "simpletron.h"
 
 #define MAX_CADENA 100
 
-status_t cortar_cadena (char **, char);
+status_t cortar_cadena (char *, char);
 void liberar_vector_de_punteros (struct instruccion ***, size_t);
-status_t imprimir_ayuda (void);
+status_t imprimir_ayuda (FILE * f_out);
 status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant);
 
 #endif

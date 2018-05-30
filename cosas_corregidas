@@ -1,0 +1,26 @@
+error.c y error.h
+status_t a error.h
+estructuras a simpletron.h (y creacion):
+	cambio de opcodes por OP_ en los archivos que corresponde
+	include simpletron.h
+
+
+estructura parametros a main.h (creacion) PERO NO SE PORQUE ES COMO QUE NO LA LEVANTA ASI!! (LO DEJO ASI PERO NO ESTARIA ANDANDO)
+	
+EN ARGUMENTOS:	
+cambio en estructura parametros de file_input/output por punteros a char
+	No deja asignar porque argv es const ¿¿??
+y correspondiente cambio en argumentos.c
+¿guardamos el nombre del programa (argv[0]??
+imprimir_ayuda se llama desde main.
+falta documentar que no se acepta stdin y binario :)
+
+EN HERRAMIENTAS -> HECHO TODO
+esta bien corregido lo de liberar_vector_punteros??
+	
+HASTA HERRAMIENTAS TODO LISTO!! (LEER DUDAS)
+
+
+
+status_t para agregar:
+ST_CANTIDAD_DE_MEMORIA_INVALIDA

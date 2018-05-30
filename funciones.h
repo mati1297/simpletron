@@ -8,6 +8,8 @@
 #include "idioma.h"
 #include "procesamiento.h"
 #include "error.h"
+#include "simpletron.h"
+
 
 
 #define MAX_MODULO 9999

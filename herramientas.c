@@ -1,22 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "main.h"
 #include "types.h"
 #include "herramientas.h"
 #include "idioma.h"
+#include "error.h"
+#include "simpletron.h"
 
 /* Recibe por puntero una cadena y un delimitador. Recorta la cadena en
  * el delimitador indicado, dejando la parte del principio hasta el delimitador,
  * reemplazándolo por el \0. En caso de un error o que todo funcione en
  * orden lo informa a través de la interfaz */
-status_t cortar_cadena (char ** cadena, char delim) {
+status_t cortar_cadena (char * cadena, char delim) {
 	
 	char * ptr;
 	
 	if (cadena == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 	
-	if ((ptr = strchr (*cadena, delim)))
+	if ((ptr = strchr (cadena, delim)))
 		*ptr = '\0';
 	
 	return ST_OK;
@@ -38,7 +41,7 @@ status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct p
 	}
 	
 	for ((*cant) = 0; (*cant) < params -> cantidad_de_memoria; (*cant)++)
-		if (!((*memoria) [(*cant)] = (struct instruccion *) malloc (sizeof (struct instruccion)))) {
+		if (!((*memoria) [(*cant)] = (struct instruccion *) calloc (1, sizeof (struct instruccion)))) {
 			return ST_ERROR_MEMORIA_INVALIDA;
 		}
 	return ST_OK;
@@ -49,7 +52,7 @@ status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct p
  * punteros a estructuras. No devuelve nada */
 void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 	
-	if (mem) {
+	if (mem && *mem) {
 		while (cant--) {
 			free ((*mem) [cant]);
 			(*mem) [cant] = NULL;
@@ -62,7 +65,7 @@ void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 /* No recibe nada. Imprime un archivo con ayuda para la ejecución del
  * programa por stdout. En caso de un error o que todo funcione en orden
  * lo informa a través de la interfaz */
-status_t imprimir_ayuda (void) {
+status_t imprimir_ayuda (FILE * f_out) {
 	FILE * fhelp;
 	char * buffer;
 	if (!(fhelp = fopen (ARCHIVO_AYUDA, "rt"))) 
@@ -73,7 +76,7 @@ status_t imprimir_ayuda (void) {
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	while (fgets (buffer, MAX_CADENA + 2, fhelp))
-		printf ("%s", buffer);
+		fprintf (f_out, "%s", buffer);
 	free (buffer);
 	if (ferror (fhelp)) {
 		fclose (fhelp);

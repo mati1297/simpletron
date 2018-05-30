@@ -1,8 +1,8 @@
 #ifndef ERRORES_ESP__H
 #define ERRORES_ESP__H
 
-#define ERROR "Error"
-#define NO_HAY_ERROR "No hay error"
+#define MSJ_PRE_ERROR "Error"
+#define MSJ_NO_ERROR "No hay error"
 #define MSJ_ERROR_PUNTERO_NULO "se encontró un puntero nulo"
 #define MSJ_ERROR_CANTIDAD_DE_ARGS "cantidad de argumentos inválida"
 #define MSJ_ERROR_MEMORIA_INSUFICIENTE "no hay memoria disponible"

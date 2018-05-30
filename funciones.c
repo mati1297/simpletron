@@ -5,6 +5,8 @@
 #include "idioma.h"
 #include "procesamiento.h"
 #include "error.h"
+#include "simpletron.h"
+
 
 /* Recibe la cantidad de memoria pedida por el usuario y por puntero las
  * estruturas con el estado actual de Simpletron y las instrucciones
@@ -27,7 +29,7 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 		estado -> instruccion_actual = *(*instrucciones)[i];
 		(estado -> contador)++;
 		
-		if((*instrucciones)[i] -> opcode == HALT)
+		if((*instrucciones)[i] -> opcode == OP_HALT)
 			break;
 			
 		if((*instrucciones)[i] -> operando >= cantidad_de_memoria)
@@ -35,66 +37,66 @@ status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantid
 
 		
 		switch ((*instrucciones)[i] -> opcode) {
-			case LEER:
+			case OP_LEER:
 				if((st = leer (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK)
 					return st;
 				break;
 			
-			case ESCRIBIR:
+			case OP_ESCRIBIR:
 				if((st = escribir (instrucciones, (*instrucciones)[i] -> operando)) != ST_OK)
 					return st;
 				break;
-			case CARGAR:
+			case OP_CARGAR:
 				if((st = cargar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
 					return st;
-			case GUARDAR:
+			case OP_GUARDAR:
 				if((st = guardar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
 					return st;
 				break;
-			case PCARGAR:
+			case OP_PCARGAR:
 				if((st = pcargar(instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
 					return st;
 				break;
-			case PGUARDAR:
+			case OP_PGUARDAR:
 				if((st = pguardar (instrucciones, cantidad_de_memoria, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
 					return st;
 				break;
-			case SUMAR:
+			case OP_SUMAR:
 				if((st = sumar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
 					return st;
 				break;
-			case RESTAR:
+			case OP_RESTAR:
 				if((st = restar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
 					return st;
 				break;
-			case DIVIDIR:
+			case OP_DIVIDIR:
 				if((st = dividir (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK) 
 					return st;
 				break;
-			case MULTIPLICAR:
+			case OP_MULTIPLICAR:
 				if((st = multiplicar (instrucciones, (*instrucciones)[i] -> operando, &(estado -> acc))) != ST_OK)
 					return st;
 				break;
-			case JMP:
+			case OP_JMP:
 				if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK)
 					return st;
 				break;
-			case JMPNEG:
+			case OP_JMPNEG:
 				if ((estado -> acc) < 0)
 					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
 						return st;
 				break;
-			case JMPZERO:
+			case OP_JMPZERO:
 				if (!(estado -> acc))
 					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
 						return st;
 				break;
-			case JNZ:
+			case OP_JNZ:
 				if ((estado -> acc))
 					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK)
 						return st;
 				break;
-			case DJNZ:
+			case OP_DJNZ:
 				if (--(estado -> acc))
 					if((st = jmp (instrucciones, (*instrucciones)[i] -> operando, &i)) != ST_OK) 
 						return st;
