@@ -23,15 +23,15 @@ int main (int argc, const char * argv [])
 	status_t st;
 	size_t cant;
 	
-	if ((st = procesar_argumentos (argv, &params, argc)) != ST_OK && st != ST_HELP) {
+	if ((st = procesar_argumentos (argv, &params, argc)) != ST_OK) {
+		if (st == ST_HELP) {
+			if (imprimir_ayuda (stderr) != ST_OK)
+				return EXIT_FAILURE;
+			return EXIT_SUCCESS;
+		}
 		imprimir_error(st);
 		return EXIT_FAILURE;
 	}
-		
-	if (st == ST_HELP)
-		if ((st = imprimir_ayuda (stderr)) != ST_OK)
-			return EXIT_FAILURE;
-		return EXIT_SUCCESS;
 		
 	if ((st = pedir_memoria_vector_punteros(&instrucciones, &params, &cant)) != ST_OK) {
 		liberar_vector_de_punteros (&instrucciones, cant);
@@ -40,28 +40,28 @@ int main (int argc, const char * argv [])
 	}
 	
 	if (params.bin_input == TRUE) {
-		if ((st = procesamiento_bin (&instrucciones, &params)) != ST_OK){
+		if ((st = procesamiento_bin (instrucciones, &params)) != ST_OK){
 			liberar_vector_de_punteros (&instrucciones, cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
 	}
 	else if (params.stdin_input == TRUE) {
-		if ((st = procesamiento_stdin (&instrucciones, &params)) != ST_OK){
+		if ((st = procesamiento_stdin (instrucciones, &params)) != ST_OK){
 			liberar_vector_de_punteros (&instrucciones, cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
 	}
 	else {
-		if ((st = procesamiento_txt (&instrucciones, &params)) != ST_OK) {
+		if ((st = procesamiento_txt (instrucciones, &params)) != ST_OK) {
 			liberar_vector_de_punteros (&instrucciones, cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
 	}
 	
-	st = seleccion_de_funcion (&instrucciones, params.cantidad_de_memoria, &estado_actual);
+	st = seleccion_de_funcion (instrucciones, params.cantidad_de_memoria, &estado_actual);
 		
 	if (st != ST_OK) {
 		imprimir_error(st);
@@ -71,7 +71,7 @@ int main (int argc, const char * argv [])
 		}
 	}
 		
-	if ((st = imprimir_dump (&estado_actual, &instrucciones, &params)) != ST_OK) {
+	if ((st = imprimir_dump (estado_actual, instrucciones, &params)) != ST_OK) {
 		imprimir_error(st);
 		liberar_vector_de_punteros (&instrucciones, cant);
 		return EXIT_FAILURE;

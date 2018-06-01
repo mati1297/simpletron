@@ -1,7 +1,7 @@
 #ifndef ERRORS_ENG__H
 #define ERRORS_ENG__H
 
-#define MSJ_PRE_ERROR "Error"
+#define MSJ_PREFIJO_ERROR "Error"
 #define MSJ_NO_ERROR "There is no error"
 #define MSJ_ERROR_PUNTERO_NULO "a null pointer has been encountered"
 #define MSJ_ERROR_CANTIDAD_DE_ARGS "invalid argument quantity"

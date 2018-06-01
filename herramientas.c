@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "main.h"
 #include "types.h"
 #include "herramientas.h"
@@ -11,7 +12,7 @@
 /* Recibe por puntero una cadena y un delimitador. Recorta la cadena en
  * el delimitador indicado, dejando la parte del principio hasta el delimitador,
  * reemplazándolo por el \0. En caso de un error o que todo funcione en
- * orden lo informa a través de la interfaz */
+ * orden lo informa a través del nombre */
 status_t cortar_cadena (char * cadena, char delim) {
 	
 	char * ptr;
@@ -29,7 +30,7 @@ status_t cortar_cadena (char * cadena, char delim) {
  * otra estructura con la información de los parámetros y la cantidad de
  * estructuras cargadas en memoria. Pide la memoria para las estructuras
  * que contienen las instrucciones. En caso de un error o que todo funcione en
- * orden lo informa a través de la interfaz */
+ * orden lo informa a través del nombre */
 status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant) {
 	if (memoria == NULL || params == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
@@ -64,7 +65,7 @@ void liberar_vector_de_punteros (struct instruccion *** mem, size_t cant) {
 
 /* No recibe nada. Imprime un archivo con ayuda para la ejecución del
  * programa por stdout. En caso de un error o que todo funcione en orden
- * lo informa a través de la interfaz */
+ * lo informa a través del nombre */
 status_t imprimir_ayuda (FILE * f_out) {
 	FILE * fhelp;
 	char * buffer;
@@ -86,3 +87,22 @@ status_t imprimir_ayuda (FILE * f_out) {
 	return ST_OK;
 }
 	
+char * recortar_espacios (char * s) {
+	char * inicio, * fin;
+	for (inicio = s; isspace (*inicio) && *inicio; inicio++)
+		;
+	if (!(*inicio)) {
+		*s = '\0';
+		return s;
+	}
+	for (fin = s + strlen (s) - 1; isspace (*fin) && fin != s; fin--)
+		;
+	*++fin = '\0';
+	return memmove (s, inicio, fin - inicio + 1);
+}
+
+int abs_t (int x) {
+	if (x < 0)
+		return x * -1;
+	return x;
+}

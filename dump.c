@@ -65,7 +65,7 @@ status_t imprimir_registros (struct estado * estado, FILE * f_output) {
 	fprintf(f_output, "\n%s:\n", MSJ_REGISTROS);
 	fprintf(f_output, "%s: %ld\n", MSJ_ACUMULADOR, estado -> acc);
 	fprintf(f_output, "%s: %lu\n", MSJ_CONTADOR, estado -> contador);
-	fprintf(f_output, "%s: %+05d\n", MSJ_INSTRUCCION, (estado -> instruccion_actual).numero_dato);
+	fprintf(f_output, "%s: %+05d\n", MSJ_INSTRUCCION, (estado -> instruccion_actual).instruccion);
 	fprintf(f_output, "%s: %+02d\n", MSJ_OPCODE, (estado -> instruccion_actual).opcode);
 	fprintf(f_output, "%s: %02lu\n", MSJ_OPERANDO, (estado -> instruccion_actual).operando);
 	return ST_OK;
@@ -90,7 +90,7 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
 			fputc('\n', f_output);
 			fprintf(f_output, "%2lu  ", i);
 		}
-		fprintf(f_output, "%+05d  ", (*instrucciones)[i] -> numero_dato);
+		fprintf(f_output, "%+05d  ", (*instrucciones)[i] -> instruccion);
 	}
 	fputc('\n', f_output);
 	return ST_OK;
@@ -108,10 +108,10 @@ status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instrucci
 		return ST_ERROR_PUNTERO_NULO;
 	fwrite(&(estado -> acc), sizeof(long), 1, f_output);
 	fwrite(&(estado -> contador), sizeof(size_t), 1, f_output);
-	fwrite(&((estado -> instruccion_actual).numero_dato), sizeof(int), 1, f_output);
+	fwrite(&((estado -> instruccion_actual).instruccion), sizeof(int), 1, f_output);
 	fwrite(&((estado -> instruccion_actual).opcode), sizeof(int), 1, f_output);
 	fwrite(&((estado -> instruccion_actual).operando), sizeof(size_t), 1, f_output);
 	for (i = 0; i < cantidad_de_memoria; i++)
-		fwrite(&((*instrucciones)[i] -> numero_dato), sizeof(int), 1, f_output);
+		fwrite(&((*instrucciones)[i] -> instruccion), sizeof(int), 1, f_output);
 	return ST_OK;
 }

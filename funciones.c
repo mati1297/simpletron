@@ -130,9 +130,9 @@ status_t leer (struct instruccion *** instrucciones, size_t operando) {
 		return ST_ERROR_SIMPLETRON;
 	if (numero_aux > MAX_MODULO || numero_aux < -MAX_MODULO)
 		return ST_ERROR_SIMPLETRON;
-	(*instrucciones)[operando] -> numero_dato = numero_aux;
-	(*instrucciones)[operando] -> opcode = (*instrucciones)[operando] -> numero_dato / MAX_CANT_OPERANDOS;
-	(*instrucciones)[operando] -> operando = (*instrucciones)[operando] -> numero_dato % MAX_CANT_OPERANDOS;
+	(*instrucciones)[operando] -> instruccion = numero_aux;
+	(*instrucciones)[operando] -> opcode = (*instrucciones)[operando] -> instruccion / MAX_CANT_OPERANDOS;
+	(*instrucciones)[operando] -> operando = (*instrucciones)[operando] -> instruccion % MAX_CANT_OPERANDOS;
 	return ST_OK;
 }
 
@@ -143,7 +143,7 @@ status_t leer (struct instruccion *** instrucciones, size_t operando) {
 status_t escribir (struct instruccion *** instrucciones, size_t operando) {
 	if (instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	fprintf(stdout, "%s %lu: %d\n", MSJ_CONTENIDO_POSICION, operando, (*instrucciones)[operando] -> numero_dato);
+	fprintf(stdout, "%s %lu: %d\n", MSJ_CONTENIDO_POSICION, operando, (*instrucciones)[operando] -> instruccion);
 	return ST_OK;
 }
 
@@ -154,7 +154,7 @@ status_t escribir (struct instruccion *** instrucciones, size_t operando) {
 status_t cargar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	*acc = (*instrucciones)[operando] -> numero_dato;
+	*acc = (*instrucciones)[operando] -> instruccion;
 	return ST_OK;
 }
 
@@ -169,9 +169,9 @@ status_t guardar (struct instruccion *** instrucciones, size_t operando, long * 
 	aux = *acc;
 	if (aux > MAX_MODULO || aux < -MAX_MODULO)
 		return ST_ERROR_SIMPLETRON;
-	(*instrucciones)[operando] -> numero_dato =  aux;
-	(*instrucciones)[operando] -> opcode = (*instrucciones)[operando] -> numero_dato / MAX_CANT_OPERANDOS;
-	(*instrucciones)[operando] -> operando = (*instrucciones)[operando] -> numero_dato % MAX_CANT_OPERANDOS;
+	(*instrucciones)[operando] -> instruccion =  aux;
+	(*instrucciones)[operando] -> opcode = (*instrucciones)[operando] -> instruccion / MAX_CANT_OPERANDOS;
+	(*instrucciones)[operando] -> operando = (*instrucciones)[operando] -> instruccion % MAX_CANT_OPERANDOS;
 	return ST_OK;
 }
 
@@ -183,7 +183,7 @@ status_t guardar (struct instruccion *** instrucciones, size_t operando, long * 
 status_t sumar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	(*acc) += (*instrucciones)[operando] -> numero_dato;
+	(*acc) += (*instrucciones)[operando] -> instruccion;
 	return ST_OK;
 }
 
@@ -195,7 +195,7 @@ status_t sumar (struct instruccion *** instrucciones, size_t operando, long * ac
 status_t restar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	(*acc) -= (*instrucciones)[operando] -> numero_dato;
+	(*acc) -= (*instrucciones)[operando] -> instruccion;
 	return ST_OK;
 }
 
@@ -207,7 +207,7 @@ status_t restar (struct instruccion *** instrucciones, size_t operando, long * a
 status_t dividir (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	(*acc) /= (*instrucciones)[operando] -> numero_dato;
+	(*acc) /= (*instrucciones)[operando] -> instruccion;
 	return ST_OK;
 }
 
@@ -219,7 +219,7 @@ status_t dividir (struct instruccion *** instrucciones, size_t operando, long * 
 status_t multiplicar (struct instruccion *** instrucciones, size_t operando, long * acc) {
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	(*acc) *= (*instrucciones)[operando] -> numero_dato;
+	(*acc) *= (*instrucciones)[operando] -> instruccion;
 	return ST_OK;
 }
 
@@ -243,9 +243,9 @@ status_t pcargar (struct instruccion *** instrucciones, long cantidad_de_memoria
 	int aux;
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	if ((aux = (*instrucciones)[operando] -> numero_dato) >= cantidad_de_memoria)
+	if ((aux = (*instrucciones)[operando] -> instruccion) >= cantidad_de_memoria)
 		return ST_ERROR_SIMPLETRON;
-	*acc = (*instrucciones)[aux] -> numero_dato;
+	*acc = (*instrucciones)[aux] -> instruccion;
 	return ST_OK;
 }
 
@@ -258,12 +258,12 @@ status_t pguardar (struct instruccion *** instrucciones, long cantidad_de_memori
 	int aux;
 	if (instrucciones == NULL || acc == NULL)
 		return ST_ERROR_PUNTERO_NULO;
-	if ((aux = (*instrucciones)[operando] -> numero_dato) >= cantidad_de_memoria)
+	if ((aux = (*instrucciones)[operando] -> instruccion) >= cantidad_de_memoria)
 		return ST_ERROR_SIMPLETRON;
 	if (*acc > MAX_MODULO || *acc < -MAX_MODULO)
 		return ST_ERROR_SIMPLETRON;
-	(*instrucciones)[aux] -> numero_dato = *acc;
-	(*instrucciones)[aux] -> opcode = (*instrucciones)[aux] -> numero_dato / MAX_CANT_OPERANDOS;
-	(*instrucciones)[aux] -> operando = (*instrucciones)[aux] -> numero_dato % MAX_CANT_OPERANDOS;
+	(*instrucciones)[aux] -> instruccion = *acc;
+	(*instrucciones)[aux] -> opcode = (*instrucciones)[aux] -> instruccion / MAX_CANT_OPERANDOS;
+	(*instrucciones)[aux] -> operando = (*instrucciones)[aux] -> instruccion % MAX_CANT_OPERANDOS;
 	return ST_OK;
 }

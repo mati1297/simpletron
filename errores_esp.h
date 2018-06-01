@@ -1,7 +1,7 @@
 #ifndef ERRORES_ESP__H
 #define ERRORES_ESP__H
 
-#define MSJ_PRE_ERROR "Error"
+#define MSJ_PREFIJO_ERROR "Error"
 #define MSJ_NO_ERROR "No hay error"
 #define MSJ_ERROR_PUNTERO_NULO "se encontró un puntero nulo"
 #define MSJ_ERROR_CANTIDAD_DE_ARGS "cantidad de argumentos inválida"

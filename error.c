@@ -17,8 +17,8 @@ void imprimir_error (status_t st) {
 	MSJ_ERROR_INSTRUCCION_INVALIDA,
 	MSJ_ERROR_LECTURA_ARCHIVO,
 	MSJ_ERROR_SIMPLETRON
-};
+	};
 	
 	if(st != ST_OK)
-		fprintf (stderr, "%s: %s\n", MSJ_PRE_ERROR, error [st]);
+		fprintf (stderr, "%s: %s\n", MSJ_PREFIJO_ERROR, error [st]);
 } 

@@ -11,7 +11,7 @@
 /* Recibe la estructura de los parámetros por puntero y carga los
  * parámetros ingresados por el usuario. En caso no se haya ingresado
  * algún argumento quedará el valor predeterminado. Devuelve el estado
- * por la interfaz para informar de haber algún error */
+ * por el nombre para informar de haber algún error */
 status_t cargar_argumentos_por_omision (struct parametros * params) {
 	
 	if (params == NULL)
@@ -30,8 +30,8 @@ status_t cargar_argumentos_por_omision (struct parametros * params) {
 /* Recibe los argumentos ingresados por el usuario en el vector de punteros
  * argv, un puntero a la estructura de parámetros donde se van a guardar
  * los parámetros ingresados por el usuario, y la cantidad de parámetros
- * ingresados para las validaciones y ciclos. Devuelve el estado por la
- * interfaz, informando así si hay algún error */
+ * ingresados para las validaciones y ciclos. Devuelve el estado por el
+ * nombre, informando así si hay algún error */
 status_t procesar_argumentos (const char * argv [], struct parametros * params, int argc) {
 	
 	size_t i, j;

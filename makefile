@@ -1,14 +1,15 @@
 #makefile Simpletron
 
 CC = gcc
-FLAGS_ESP = -ansi -Wall -pedantic -DESP
-FLAGS_ENG = -ansi -Wall -pedantic -DENG
+CFLAGS = -ansi -Wall -pedantic
+FLAG_ESP = -DIDIOMA_ESPANIOL
+FLAG_ENG = -DLANG_ENGLISH
 
 esp:
-	make CFLAGS="$(FLAGS_ESP)" all
+	make CFLAGS+="$(FLAGS_ESP)" all
 
 eng:
-	make CFLAGS="$(FLAGS_ENG)" all
+	make CFLAGS+="$(FLAGS_ENG)" all
 	
 all: simpletron clean
 
