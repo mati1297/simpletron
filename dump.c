@@ -16,27 +16,27 @@
  * información leída por la línea de comandos se imprime el estado final de
  * Simpletron en el formato deseado. Devuelve por la interfaz un estado en
  * caso de fallar o de que todo haya salido bien */
-status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucciones, struct parametros * parametros) {
+status_t imprimir_dump (struct estado * estado, struct instruccion ** instrucciones, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, char * file_output) {
 	FILE * f_output;
 	status_t st;
-	if (estado == NULL || instrucciones == NULL || parametros == NULL) {
+	if (estado == NULL || instrucciones == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
 	}
-	if (parametros -> bin_output == TRUE) {
-		if((f_output = fopen(parametros -> file_output, "wb")) == NULL) {
+	if (bin_output == TRUE) {
+		if((f_output = fopen(file_output, "wb")) == NULL) {
 			return ST_ERROR_LECTURA_ARCHIVO;
 		}
-		if ((st = imprimir_bin(estado, f_output, instrucciones, parametros -> cantidad_de_memoria)) != ST_OK) {
+		if ((st = imprimir_bin(estado, f_output, instrucciones, cantidad_de_memoria)) != ST_OK) {
 			fclose (f_output);
 			return st;
 		}
 	}
 	
 	else {
-		if ((parametros -> stdout_output) == TRUE)
+		if ((stdout_output) == TRUE)
 			f_output = stdout;
 		else {
-			if((f_output = fopen(parametros -> file_output, "w")) == NULL) {
+			if((f_output = fopen(file_output, "w")) == NULL) {
 				return ST_ERROR_LECTURA_ARCHIVO;
 			}
 		}
@@ -44,7 +44,7 @@ status_t imprimir_dump (struct estado * estado, struct instruccion *** instrucci
 			fclose (f_output);
 			return st;
 		}
-		if((st = imprimir_memoria (instrucciones, parametros -> cantidad_de_memoria, f_output)) != ST_OK) {
+		if((st = imprimir_memoria (instrucciones, cantidad_de_memoria, f_output)) != ST_OK) {
 			fclose (f_output);
 			return st;
 		}
@@ -77,7 +77,7 @@ status_t imprimir_registros (struct estado * estado, FILE * f_output) {
  * de el estado final de la memoria de Simpletron en stdout o en el archivo
  * de texto indicado. En caso de fallar o que todo ande en orden devuelve
  * un estado por la interfaz */
-status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_de_memoria, FILE * f_output) {
+status_t imprimir_memoria (struct instruccion ** instrucciones, long cantidad_de_memoria, FILE * f_output) {
 	size_t i;
 	if (instrucciones == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -90,7 +90,7 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
 			fputc('\n', f_output);
 			fprintf(f_output, "%2lu  ", i);
 		}
-		fprintf(f_output, "%+05d  ", (*instrucciones)[i] -> instruccion);
+		fprintf(f_output, "%+05d  ", instrucciones[i] -> instruccion);
 	}
 	fputc('\n', f_output);
 	return ST_OK;
@@ -102,7 +102,7 @@ status_t imprimir_memoria (struct instruccion *** instrucciones, long cantidad_d
  * el dump y el estado final de la memoria, en formato binario. En caso de
  * haber un error o de que esté todo en orden, devuelve un estado a través
  * de la interfaz */
-status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instruccion *** instrucciones, long cantidad_de_memoria) {
+status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instruccion ** instrucciones, long cantidad_de_memoria) {
 	size_t i;
 	if (estado == NULL || f_output == NULL || instrucciones == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -112,6 +112,6 @@ status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instrucci
 	fwrite(&((estado -> instruccion_actual).opcode), sizeof(int), 1, f_output);
 	fwrite(&((estado -> instruccion_actual).operando), sizeof(size_t), 1, f_output);
 	for (i = 0; i < cantidad_de_memoria; i++)
-		fwrite(&((*instrucciones)[i] -> instruccion), sizeof(int), 1, f_output);
+		fwrite(&(instrucciones[i] -> instruccion), sizeof(int), 1, f_output);
 	return ST_OK;
 }

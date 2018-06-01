@@ -21,6 +21,16 @@ esta bien corregido lo de liberar_vector_punteros??
 HASTA HERRAMIENTAS TODO LISTO!! (LEER DUDAS)
 
 
+terminado en dump.c
+
+duda en jmp de restar 1 para que ande bien.?? y si le paso el i esta bien?
+en las de pcargar y pguardar necesito pasarle la cantidad de memoria.
+
+terminado funciones.c CORREGIR LO DE ARRIBA.
+
+
 
 status_t para agregar:
 ST_CANTIDAD_DE_MEMORIA_INVALIDA
+
+

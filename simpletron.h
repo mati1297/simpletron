@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#define LARGO_INSTRUCCION 5
+
 typedef enum {
 	OP_LEER = 10,
 	OP_ESCRIBIR = 11,

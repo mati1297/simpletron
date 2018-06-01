@@ -61,7 +61,7 @@ int main (int argc, const char * argv [])
 		}
 	}
 	
-	st = seleccion_de_funcion (instrucciones, params.cantidad_de_memoria, &estado_actual);
+	st = ejecutar_simpletron (instrucciones, params.cantidad_de_memoria, &estado_actual);
 		
 	if (st != ST_OK) {
 		imprimir_error(st);
@@ -71,7 +71,7 @@ int main (int argc, const char * argv [])
 		}
 	}
 		
-	if ((st = imprimir_dump (estado_actual, instrucciones, &params)) != ST_OK) {
+	if ((st = imprimir_dump (&estado_actual, instrucciones, params.bin_output, params.stdout_output, params.cantidad_de_memoria, params.file_output)) != ST_OK) {
 		imprimir_error(st);
 		liberar_vector_de_punteros (&instrucciones, cant);
 		return EXIT_FAILURE;

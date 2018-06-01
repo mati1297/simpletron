@@ -12,22 +12,23 @@
 
 
 
-#define MAX_MODULO 9999
+#define MAX_PALABRA 9999
+#define MIN_PALABRA -9999
 
 
 
 
-status_t leer (struct instruccion *** instrucciones, size_t operando);
-status_t seleccion_de_funcion (struct instruccion *** instrucciones, long cantidad_de_memoria, struct estado * estado);
-status_t escribir (struct instruccion *** instrucciones, size_t operando);
-status_t cargar (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t guardar (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t sumar (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t restar (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t dividir (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t multiplicar (struct instruccion *** instrucciones, size_t operando, long * acc);
-status_t jmp (struct instruccion *** instrucciones, size_t operando, size_t * i);
-status_t pcargar (struct instruccion *** instrucciones, long cantidad_de_memoria, size_t operando, long * acc);
-status_t pguardar (struct instruccion *** instrucciones, long cantidad_de_memoria, size_t operando, long * acc);
+status_t leer (struct instruccion ** instrucciones, struct estado * estado);
+status_t ejecutar_simpletron (struct instruccion ** instrucciones, long cantidad_de_memoria, struct estado * estado);
+status_t escribir (struct instruccion ** instrucciones, struct estado * estado);
+status_t cargar (struct instruccion ** instrucciones, struct estado * estado);
+status_t guardar (struct instruccion ** instrucciones, struct estado * estado);
+status_t sumar (struct instruccion ** instrucciones, struct estado * estado);
+status_t restar (struct instruccion ** instrucciones, struct estado * estado);
+status_t dividir (struct instruccion ** instrucciones, struct estado * estado);
+status_t multiplicar (struct instruccion ** instrucciones, struct estado * estado);
+status_t jmp (struct instruccion ** instrucciones, struct estado * estado, size_t *i);
+status_t pcargar (struct instruccion ** instrucciones, struct estado * estado, long cantidad_de_memoria);
+status_t pguardar (struct instruccion ** instrucciones, struct estado * estado, long cantidad_de_memoria);
 
 #endif
