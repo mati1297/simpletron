@@ -4,16 +4,21 @@ Corregir que si se ingresa -if o -of y no se ingreso -i o -o hay un error, solo 
 nombre de archivo etc
 
 
-Aclarar que a instruccion le llamamos a todo, tanto al numero como al opcode como a la pos de memoria, es el conjunto (PARA INFORME)!!
-
-Liberar la memoria al despues de usarla o en caso de fallas (con la funcion en herramientas)
-
-mati: aclarame en algun comentario que serian los errores que no completé
-
-y el tema del largo del nombre del archivo de entrada o salida no se si tratarlo como error
-
-Que archivos.c usan la estructura de instrucciones? practicamente todos xd, menos el de argumentos
-
 EN EL MAIN PONER QUE IMPRIMA INICIO DE EJECUCION Y FIN DE EJECUCION?? si dale
 
+/*
+				Commit de santi 01/06 1:00 hs
+Correcciones en main.c procesamiento.c principalmente
 
+cambié el campo numero_dato por instruccion como puso Moreno en la      
+correccion.
+modifiqué el makefile para que estén bien las macros, pero todavia
+falta poner bien las inclusiones al finalizar con las correcciones.
+
+cree algunas funciones medio boludas en herramientas.c para ayudarnos
+con algunas giladas que quedaban feas con mucho codigo en la parte de
+procesamiento.
+
+arranqué a corregir el tema de punteros pero probablemente haya muchos  
+errores porque estoy muy cansado. --> REVISAR <-- para mí es esto, basicamente
+*/
