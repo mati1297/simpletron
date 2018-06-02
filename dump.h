@@ -15,9 +15,9 @@
 
 #define COLUMNAS 10
 
-status_t imprimir_registros (struct estado * estado, FILE * f_output);
-status_t imprimir_dump (struct estado * estado, struct instruccion ** instrucciones, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, char * file_output);
-status_t imprimir_memoria (struct instruccion ** instrucciones, long cantidad_de_memoria, FILE * f_output);
-status_t imprimir_bin (struct estado * estado, FILE * f_output, struct instruccion ** instrucciones, long cantidad_de_memoria);
+status_t imprimir_registros (struct simpletron * simpletron, FILE * f_output);
+status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, char * file_output);
+status_t imprimir_memoria (struct simpletron * simpletron, long cantidad_de_memoria, FILE * f_output);
+status_t imprimir_bin (struct simpletron * simpletron, FILE * f_output, long cantidad_de_memoria);
 
 #endif

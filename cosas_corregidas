@@ -29,6 +29,12 @@ en las de pcargar y pguardar necesito pasarle la cantidad de memoria.
 terminado funciones.c CORREGIR LO DE ARRIBA.
 
 
+A PARTIR DE LA CHARLA CON MORENO
+cambiada la estructura simpletron y cambiadas las funciones pedir memoria y liberar (y la respectiva parte en el main)
+listo funciones con la nueva estructura
+listo dump con la nueva estructura
+
+
 
 status_t para agregar:
 ST_CANTIDAD_DE_MEMORIA_INVALIDA

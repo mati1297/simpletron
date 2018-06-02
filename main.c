@@ -18,8 +18,7 @@
 int main (int argc, const char * argv [])
 {
 	struct parametros params;
-	struct instruccion ** instrucciones;
-	struct estado estado_actual;
+	struct simpletron simpletron;
 	status_t st;
 	size_t cant;
 	
@@ -33,8 +32,8 @@ int main (int argc, const char * argv [])
 		return EXIT_FAILURE;
 	}
 		
-	if ((st = pedir_memoria_vector_punteros(&instrucciones, &params, &cant)) != ST_OK) {
-		liberar_vector_de_punteros (&instrucciones, cant);
+	if ((st = pedir_memoria_vector_punteros((&simpletron.memoria), params.cantidad_de_memoria, &cant)) != ST_OK) {
+		liberar_vector_de_punteros (&(simpletron.memoria), cant);
 		imprimir_error(st);
 		return EXIT_FAILURE;
 	}
@@ -61,19 +60,19 @@ int main (int argc, const char * argv [])
 		}
 	}
 	
-	st = ejecutar_simpletron (instrucciones, params.cantidad_de_memoria, &estado_actual);
+	st = ejecutar_simpletron (&simpletron, params.cantidad_de_memoria);
 		
 	if (st != ST_OK) {
 		imprimir_error(st);
 		if (st != ST_ERROR_SIMPLETRON) {
-			liberar_vector_de_punteros (&instrucciones, cant);
+			liberar_vector_de_punteros (&(simpletron.memoria), cant);
 			return EXIT_FAILURE;
 		}
 	}
 		
-	if ((st = imprimir_dump (&estado_actual, instrucciones, params.bin_output, params.stdout_output, params.cantidad_de_memoria, params.file_output)) != ST_OK) {
+	if ((st = imprimir_dump (&simpletron, params.bin_output, params.stdout_output, params.cantidad_de_memoria, params.file_output)) != ST_OK) {
 		imprimir_error(st);
-		liberar_vector_de_punteros (&instrucciones, cant);
+		liberar_vector_de_punteros (&(simpletron.memoria), cant);
 		return EXIT_FAILURE;
 	}
 		

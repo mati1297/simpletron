@@ -30,11 +30,11 @@ struct instruccion {
 	size_t operando;
 };
 
-struct estado
+struct simpletron
 {
 	long acc;
 	size_t contador;
-	struct instruccion * memoria_simpletron;
+	struct instruccion ** memoria;
 	struct instruccion instruccion_actual;
 };
 

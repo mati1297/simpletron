@@ -31,7 +31,7 @@ status_t cortar_cadena (char * cadena, char delim) {
  * estructuras cargadas en memoria. Pide la memoria para las estructuras
  * que contienen las instrucciones. En caso de un error o que todo funcione en
  * orden lo informa a través del nombre */
-status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, struct parametros * params, size_t * cant) {
+status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, long cantidad_de_memoria, size_t * cant) {
 	if (memoria == NULL || params == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
 	}

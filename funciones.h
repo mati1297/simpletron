@@ -18,17 +18,17 @@
 
 
 
-status_t leer (struct instruccion ** instrucciones, struct estado * estado);
-status_t ejecutar_simpletron (struct instruccion ** instrucciones, long cantidad_de_memoria, struct estado * estado);
-status_t escribir (struct instruccion ** instrucciones, struct estado * estado);
-status_t cargar (struct instruccion ** instrucciones, struct estado * estado);
-status_t guardar (struct instruccion ** instrucciones, struct estado * estado);
-status_t sumar (struct instruccion ** instrucciones, struct estado * estado);
-status_t restar (struct instruccion ** instrucciones, struct estado * estado);
-status_t dividir (struct instruccion ** instrucciones, struct estado * estado);
-status_t multiplicar (struct instruccion ** instrucciones, struct estado * estado);
-status_t jmp (struct instruccion ** instrucciones, struct estado * estado, size_t *i);
-status_t pcargar (struct instruccion ** instrucciones, struct estado * estado, long cantidad_de_memoria);
-status_t pguardar (struct instruccion ** instrucciones, struct estado * estado, long cantidad_de_memoria);
+status_t ejecutar_simpletron (struct simpletron * simpletron, long cantidad_de_memoria);
+status_t leer (struct simpletron * simpletron);
+status_t escribir (struct simpletron * simpletron);
+status_t cargar (struct simpletron * simpletron);
+status_t guardar (struct simpletron * simpletron);
+status_t sumar (struct simpletron * simpletron);
+status_t restar (struct simpletron * simpletron);
+status_t dividir (struct simpletron * simpletron);
+status_t multiplicar (struct simpletron * simpletron);
+status_t jmp (struct simpletron * simpletron);
+status_t pcargar (struct simpletron * simpletron, long cantidad_de_memoria);
+status_t pguardar (struct simpletron * simpletron, long cantidad_de_memoria);
 
 #endif

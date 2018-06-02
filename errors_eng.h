@@ -13,5 +13,6 @@
 #define MSJ_ERROR_INSTRUCCION_INVALIDA "invalid instruction"
 #define MSJ_ERROR_LECTURA_ARCHIVO "file could not be read"
 #define MSJ_ERROR_SIMPLETRON "in Simpletron's run"
+#define MSJ_ERROR_CANTIDAD_DE_MEMORIA_INVALIDA "invalid memory quantity"
 
 #endif
