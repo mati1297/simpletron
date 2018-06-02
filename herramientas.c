@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "main.h"
 #include "types.h"
 #include "herramientas.h"
 #include "idioma.h"
@@ -32,16 +31,16 @@ status_t cortar_cadena (char * cadena, char delim) {
  * que contienen las instrucciones. En caso de un error o que todo funcione en
  * orden lo informa a través del nombre */
 status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, long cantidad_de_memoria, size_t * cant) {
-	if (memoria == NULL || params == NULL) {
+	if (memoria == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
 	}
 	
-	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * params -> cantidad_de_memoria))) {
+	if (!(*memoria = (struct instruccion **) malloc (sizeof (struct instruccion *) * cantidad_de_memoria))) {
 		*memoria = NULL;
 		return ST_ERROR_MEMORIA_INVALIDA;
 	}
 	
-	for ((*cant) = 0; (*cant) < params -> cantidad_de_memoria; (*cant)++)
+	for ((*cant) = 0; (*cant) < cantidad_de_memoria; (*cant)++)
 		if (!((*memoria) [(*cant)] = (struct instruccion *) calloc (1, sizeof (struct instruccion)))) {
 			return ST_ERROR_MEMORIA_INVALIDA;
 		}

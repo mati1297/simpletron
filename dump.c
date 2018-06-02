@@ -8,14 +8,13 @@
 #include "idioma.h"
 #include "error.h"
 #include "simpletron.h"
-#include "main.h"
 
-/* Recibe por puntero las estructuras conteniendo los datos sobre el estado
- * de Simpletron, sobre las instrucciones que corrieron en el programa y
- * sobre los parámetros ingresados por la línea de comandos. En base de la
- * información leída por la línea de comandos se imprime el estado final de
- * Simpletron en el formato deseado. Devuelve por la interfaz un estado en
- * caso de fallar o de que todo haya salido bien */
+/* Recibe por puntero la estructura simpletron, y recibe ademas los parametros
+ * ingresados por linea de comandos al comienzo de la ejecucion del programa
+ * que sean necesarios. En base a esta informacion abre el archivo de la 
+ * manera necesaria y decide como debe imprimir la informacion de la ejecucion 
+ * del simpletron. Devuelve por el nombre un estado en caso de fallar o de que
+ * todo haya salido bien */
 status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, char * file_output) {
 	FILE * f_output;
 	status_t st;
@@ -55,10 +54,9 @@ status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_
 	return ST_OK;
 }
 
-/* Recibe un puntero a la estructura estado actual de Simpletron y otro
- * a la estructura con la información del archivo de salida. Imprime el
- * estado en el archivo y en caso de recibir un puntero nulo devuelve un 
- * estado por la interfaz informándolo */
+/*Recibe un puntero a la estructura simpletron y otro al archivo de salida.
+ * Imprime en formato texto la parte de los registros de la ejecucion 
+ * del simpletron. Devuelve estado por el nombre.*/
 status_t imprimir_registros (struct simpletron * simpletron, FILE * f_output) {
 	if (simpletron == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -71,12 +69,10 @@ status_t imprimir_registros (struct simpletron * simpletron, FILE * f_output) {
 	return ST_OK;
 }
 
-/* Recibe un puntero a el vector de punteros a estructuras con la información
- * de cada instrucción, la cantidad de memoria pedida por el usuario un puntero
- * a la estructura con información del archivo de salida. Hace una impresión
- * de el estado final de la memoria de Simpletron en stdout o en el archivo
- * de texto indicado. En caso de fallar o que todo ande en orden devuelve
- * un estado por la interfaz */
+/*Recibe un puntero a la estructura simpletron, la cantidad de memoria del programa y 
+ * un puntero al archivo de salida. Imprime en formato texto los datos cargados 
+ * en memoria al final de la ejecucion del simpletron en forma de tabla. 
+ * Devuelve el estado por el nombre*/
 status_t imprimir_memoria (struct simpletron * simpletron, long cantidad_de_memoria, FILE * f_output) {
 	size_t i;
 	if (simpletron == NULL || f_output == NULL)
@@ -96,12 +92,12 @@ status_t imprimir_memoria (struct simpletron * simpletron, long cantidad_de_memo
 	return ST_OK;
 }
 
-/* Recibe por puntero la estructura con el estado de Simpletron, la información
- * del archivo de salida y las instrucciones cargadas en memoria y la cantidad
- * de memoria pedida por el usuario. La función imprime en el archivo indicado
- * el dump y el estado final de la memoria, en formato binario. En caso de
- * haber un error o de que esté todo en orden, devuelve un estado a través
- * de la interfaz */
+/*Recibe por puntero la estructura simpletron, el archivo de salida y la
+ * cantidad de memoria. Imprime en binario tanto los registros como los
+ * datos guardados en memoria al final de la ejecucion del simpletron.
+ * Imprime los datos en el siguiente orden: acumulador, contador, instruccion actual: instruccion,
+ * opcode, operando; y finalmente las posiciones de memoria. Devuelve
+ * estado por el nombre*/
 status_t imprimir_bin (struct simpletron * simpletron, FILE * f_output, long cantidad_de_memoria) {
 	size_t i;
 	if (simpletron == NULL || f_output == NULL)

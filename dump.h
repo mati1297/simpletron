@@ -11,7 +11,6 @@
 #include "idioma.h"
 #include "error.h"
 #include "simpletron.h"
-#include "main.h"
 
 #define COLUMNAS 10
 

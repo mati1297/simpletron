@@ -39,22 +39,22 @@ int main (int argc, const char * argv [])
 	}
 	
 	if (params.bin_input == TRUE) {
-		if ((st = procesamiento_bin (instrucciones, &params)) != ST_OK){
-			liberar_vector_de_punteros (&instrucciones, cant);
+		if ((st = procesamiento_bin (simpletron.memoria, params.file_input, params.cantidad_de_memoria)) != ST_OK){
+			liberar_vector_de_punteros (&(simpletron.memoria), cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
 	}
 	else if (params.stdin_input == TRUE) {
-		if ((st = procesamiento_stdin (instrucciones, &params)) != ST_OK){
-			liberar_vector_de_punteros (&instrucciones, cant);
+		if ((st = procesamiento_stdin (simpletron.memoria, params.cantidad_de_memoria)) != ST_OK){
+			liberar_vector_de_punteros (&(simpletron.memoria), cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
 	}
 	else {
-		if ((st = procesamiento_txt (instrucciones, &params)) != ST_OK) {
-			liberar_vector_de_punteros (&instrucciones, cant);
+		if ((st = procesamiento_txt (simpletron.memoria, params.file_input, params.cantidad_de_memoria)) != ST_OK) {
+			liberar_vector_de_punteros (&(simpletron.memoria), cant);
 			imprimir_error(st);
 			return EXIT_FAILURE;
 		}
@@ -76,7 +76,7 @@ int main (int argc, const char * argv [])
 		return EXIT_FAILURE;
 	}
 		
-	liberar_vector_de_punteros (&instrucciones, cant);
+	liberar_vector_de_punteros (&(simpletron.memoria), cant);
 	
 	return EXIT_SUCCESS;
 }
