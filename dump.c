@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "dump.h"
 #include "types.h"
-#include "argumentos.h"
 #include "funciones.h"
 #include "procesamiento.h"
 #include "idioma.h"
@@ -15,7 +14,7 @@
  * manera necesaria y decide como debe imprimir la informacion de la ejecucion 
  * del simpletron. Devuelve por el nombre un estado en caso de fallar o de que
  * todo haya salido bien */
-status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, char * file_output) {
+status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, const char * file_output) {
 	FILE * f_output;
 	status_t st;
 	if (simpletron == NULL) {

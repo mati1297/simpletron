@@ -1,3 +1,5 @@
+
+#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +34,7 @@ status_t cargar_argumentos_por_omision (struct parametros * params) {
  * los parámetros ingresados por el usuario, y la cantidad de parámetros
  * ingresados para las validaciones y ciclos. Devuelve el estado por el
  * nombre, informando así si hay algún error */
-status_t procesar_argumentos (char * argv [], struct parametros * params, int argc) {
+status_t procesar_argumentos (const char * argv [], struct parametros * params, int argc) {
 	
 	size_t i, j;
 	char * endp;

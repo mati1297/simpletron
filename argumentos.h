@@ -34,6 +34,6 @@ typedef enum {
 
 
 status_t cargar_argumentos_por_omision (struct parametros * params);
-status_t procesar_argumentos (char * argv [], struct parametros * params, int argc); 
+status_t procesar_argumentos (const char * argv [], struct parametros * params, int argc);
 
 #endif

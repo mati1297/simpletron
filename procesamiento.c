@@ -15,7 +15,7 @@
  * de punteros a estructuras en donde se gurdarán las instrucciones leídas
  * en el archivo de texto ingresado como argumento. Devuelve un estado a
  * través den en caso del nombre que ocurra un error o no */
-status_t procesamiento_txt (struct instruccion ** memoria, char * file_input, long cantidad_de_memoria) {
+status_t procesamiento_txt (struct instruccion ** memoria, const char * file_input, long cantidad_de_memoria) {
 	
 	FILE * fi;
 	char * buffer, * endp;
@@ -75,7 +75,7 @@ status_t procesamiento_txt (struct instruccion ** memoria, char * file_input, lo
 	}
 	
 	/*Si se pidio la memoria justa, lee de nuevo para poder llegar a EOF*/
-	fgets(buffer, MAX_CADENA +2, fi);
+	fgets(buffer, MAX_CADENA, fi);
 	
 	free (buffer);
 	buffer = NULL;
@@ -101,7 +101,7 @@ status_t procesamiento_txt (struct instruccion ** memoria, char * file_input, lo
  * y la informacion del archivo de entrada y la cantidad de memoria
  * pedida por el usuario. Lee los datos de forma binaria y los guarda
  * en las distintas estructuras. Devuelve el estado por el nombre.*/
-status_t procesamiento_bin (struct instruccion ** memoria, char * file_input, long cantidad_de_memoria) {
+status_t procesamiento_bin (struct instruccion ** memoria, const char * file_input, long cantidad_de_memoria) {
 	FILE * fi;
 	int aux;
 	size_t i;
@@ -109,8 +109,8 @@ status_t procesamiento_bin (struct instruccion ** memoria, char * file_input, lo
 		return ST_ERROR_PUNTERO_NULO;
 	if ((fi = fopen(file_input, "rb")) == NULL)
 		return ST_ERROR_LECTURA_ARCHIVO;
-	for(i = 0; i < cantidad_de_memoria; i++) {
-		fread(&aux, sizeof(int), 1, fi);
+	for(i = 0; i < cantidad_de_memoria && fread(&aux, sizeof(int), 1, fi); i++) {
+		
 
 		if (aux < MIN_INSTRUCCION || aux > MAX_INSTRUCCION)
 			return ST_ERROR_INSTRUCCION_INVALIDA;
@@ -118,6 +118,10 @@ status_t procesamiento_bin (struct instruccion ** memoria, char * file_input, lo
 		memoria[i] -> opcode = aux / MAX_CANT_OPERANDOS;
 		memoria[i] -> operando = abs_t(aux) % MAX_CANT_OPERANDOS;
 	}
+	
+	
+	fread(&aux, sizeof(int), 1, fi);
+	printf("%d", feof(fi));
 	
 	if (!feof (fi)) {
 		fclose (fi);
@@ -214,11 +218,11 @@ status_t procesamiento_bin (struct instruccion ** memoria, char * file_input, lo
 	return ST_OK;
 }*/
 
-/* Esta función recibe un puntero a la estructura con la informacion sobre
- * los argumentos recibidos por la línea de comandos y también un vector
- * de punteros a estructuras en donde se gurdarán las instrucciones leídas
- * por pantalla a medida de que el usuario las ingrese. Devuelve un estado
- * a través de la interfaz en caso de que ocurra un error o no */
+/* Esta función recibe un puntero a el vector de punteros que representa la memoria
+ * y la cantidad de memoria pedida por el usuario. Lee por stdin las palabras que
+ * ingresa el usuario hasta que se termine la memoria solicitada o hasta
+ * que el usuario ingrese un comando de finalización (-99999), todo lo que el usuario
+ * no ingrese queda en +0000.*/
 status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_memoria) {
 	
 	char * buffer, * endp;
@@ -241,7 +245,7 @@ status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_me
 		/* Lleva la cuenta del N° de instrucción ingresado */
 		printf ("%lu%s ", i, SEPARADOR_INGRESO);
 		
-		if (fgets (buffer, LARGO_INSTRUCCION + 2, stdin) == NULL) {
+		if (fgets (buffer, LARGO_INSTRUCCION + 3, stdin) == NULL) {
 			free (buffer);
 			buffer = NULL;
 			return ST_ERROR_ENTRADA_INVALIDA;
@@ -265,14 +269,17 @@ status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_me
 			buffer = NULL;
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
+		
+		if (aux == FIN_INGRESO)
+			break;
+		
 		if (aux < MIN_INSTRUCCION || aux > MAX_INSTRUCCION) {
 			free (buffer);
 			buffer = NULL;
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		
-		if(aux > MAX_INSTRUCCION || aux < MIN_INSTRUCCION)
-			return ST_ERROR_INSTRUCCION_INVALIDA;
+		
 			
 		memoria[i] -> instruccion = aux;
 		memoria[i] -> operando = abs_t (aux) % MAX_CANT_OPERANDOS;

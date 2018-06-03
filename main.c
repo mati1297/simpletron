@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "argumentos.h"
-#include "types.h"
 #include "dump.h"
 #include "procesamiento.h"
 #include "funciones.h"
 #include "herramientas.h"
 #include "error.h"
 #include "simpletron.h"
+#include "argumentos.h"
+#include "types.h"
 
 
 /* Recibe los argumentos ingresados por el usuario y la cantidad de argumentos

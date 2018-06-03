@@ -11,10 +11,10 @@ typedef enum {
 
 struct parametros {
 	long cantidad_de_memoria;
-	char * file_input;
+	const char * file_input;
 	bool_t stdin_input;
 	bool_t bin_input;
-	char * file_output;
+	const char * file_output;
 	bool_t stdout_output;
 	bool_t bin_output;
 };

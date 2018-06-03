@@ -9,7 +9,8 @@ al compilar para configurar el Simpletron.
 * -i :
     si se ingresa "-i" seguido del nombre de un archivo, las instrucciones a ejecutar se leeran
     del archivo ingresado. Si no se ingresa el parametro, se las leeran por stdin (usualmente es
-    el teclado).
+    el teclado). En este último caso el ingreso se realiza hasta que se termine la memoria pedida
+    o hasta que se ingrese el numero "-99999".
 
 * -if :
     luego de ingresar "-if" hay dos opciones. Si se quiere que el archivo se entienda como una
