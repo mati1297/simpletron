@@ -5,10 +5,10 @@ CFLAGS = -ansi -Wall -pedantic
 FLAG_ESP = -DIDIOMA_ESPANIOL
 FLAG_ENG = -DLANG_ENGLISH
 
-IDIOMA_ESPANIOL:
+espaniol:
 	make CFLAGS+="$(FLAGS_ESP)" all
 
-LANG_ENGLISH:
+english:
 	make CFLAGS+="$(FLAGS_ENG)" all
 	
 all: simpletron clean

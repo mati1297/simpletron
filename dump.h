@@ -3,13 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "dump.h"
 #include "types.h"
-#include "funciones.h"
 #include "procesamiento.h"
-#include "idioma.h"
-#include "error.h"
 #include "simpletron.h"
+#include "error.h"
 
 #define COLUMNAS 10
 

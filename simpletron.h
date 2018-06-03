@@ -4,6 +4,8 @@
 #include <stdio.h>
 
 #define LARGO_INSTRUCCION 5
+#define MIN_INSTRUCCION -9999
+#define MAX_INSTRUCCION 9999
 
 typedef enum {
 	OP_LEER = 10,
@@ -30,8 +32,7 @@ struct instruccion {
 	size_t operando;
 };
 
-struct simpletron
-{
+struct simpletron {
 	long acc;
 	size_t contador;
 	struct instruccion ** memoria;

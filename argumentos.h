@@ -1,14 +1,8 @@
 #ifndef ARGUMENTOS__H
 #define ARGUMENTOS__H 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "main.h"
-#include "types.h"
 #include "error.h"
-#include "herramientas.h"
-
 
 #define MAX_ARGUMENTOS 11
 #define MEMORIA_POR_OMISION 50
@@ -30,8 +24,6 @@ typedef enum {
 	ARG_HELP = 5,
 	ARG_INVALIDO = 6
 } arg_t;
-
-
 
 status_t cargar_argumentos_por_omision (struct parametros * params);
 status_t procesar_argumentos (const char * argv [], struct parametros * params, int argc);
