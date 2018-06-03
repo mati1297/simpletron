@@ -32,7 +32,8 @@ status_t cargar_argumentos_por_omision (struct parametros * params) {
 /* Recibe los argumentos ingresados por el usuario en el vector de punteros
  * argv, un puntero a la estructura de parámetros donde se van a guardar
  * los parámetros ingresados por el usuario, y la cantidad de parámetros
- * ingresados para las validaciones y ciclos. Devuelve el estado por el
+ * ingresados para las validaciones y ciclos. El programa no acepta
+ * binario si se trabaja con stdin y stdout.Devuelve el estado por el
  * nombre, informando así si hay algún error */
 status_t procesar_argumentos (const char * argv [], struct parametros * params, int argc) {
 	

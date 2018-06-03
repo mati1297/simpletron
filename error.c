@@ -5,7 +5,7 @@
 
 void imprimir_error (status_t st) {
 	
-	static char ** error = {
+	static char * error [MAX_ERROR_STR]= {
 	MSJ_NO_ERROR,
 	MSJ_ERROR_PUNTERO_NULO,
 	MSJ_ERROR_CANTIDAD_DE_ARGS,

@@ -21,7 +21,7 @@ argumentos.o: argumentos.c main.h argumentos.h types.h herramientas.h error.h
 	$(CC) $(CFLAGS) -o argumentos.o -c argumentos.c
 procesamiento.o: procesamiento.c procesamiento.h herramientas.h types.h error.h simpletron.h
 	$(CC) $(CFLAGS) -o procesamiento.o -c procesamiento.c
-funciones.o: funciones.c funciones.h procesamiento.h types.h idioma.h error.h simpletron.h
+funciones.o: funciones.c funciones.h procesamiento.h types.h idioma.h error.h simpletron.h herramientas.h
 	$(CC) $(CFLAGS) -o funciones.o -c funciones.c
 dump.o: dump.c dump.h simpletron.h procesamiento.h funciones.h types.h idioma.h error.h
 	$(CC) $(CFLAGS) -o dump.o -c dump.c

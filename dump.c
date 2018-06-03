@@ -14,7 +14,7 @@
  * manera necesaria y decide como debe imprimir la informacion de la ejecucion 
  * del simpletron. Devuelve por el nombre un estado en caso de fallar o de que
  * todo haya salido bien */
-status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, const char * file_output) {
+status_t imprimir_dump (const struct simpletron * simpletron, bool_t bin_output, bool_t stdout_output, size_t cantidad_de_memoria, const char * file_output) {
 	FILE * f_output;
 	status_t st;
 	if (simpletron == NULL) {
@@ -56,7 +56,7 @@ status_t imprimir_dump (struct simpletron * simpletron, bool_t bin_output, bool_
 /*Recibe un puntero a la estructura simpletron y otro al archivo de salida.
  * Imprime en formato texto la parte de los registros de la ejecucion 
  * del simpletron. Devuelve estado por el nombre.*/
-status_t imprimir_registros (struct simpletron * simpletron, FILE * f_output) {
+status_t imprimir_registros (const struct simpletron * simpletron, FILE * f_output) {
 	if (simpletron == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 	fprintf(f_output, "\n%s:\n", MSJ_REGISTROS);
@@ -72,7 +72,7 @@ status_t imprimir_registros (struct simpletron * simpletron, FILE * f_output) {
  * un puntero al archivo de salida. Imprime en formato texto los datos cargados 
  * en memoria al final de la ejecucion del simpletron en forma de tabla. 
  * Devuelve el estado por el nombre*/
-status_t imprimir_memoria (struct simpletron * simpletron, long cantidad_de_memoria, FILE * f_output) {
+status_t imprimir_memoria (const struct simpletron * simpletron, long cantidad_de_memoria, FILE * f_output) {
 	size_t i;
 	if (simpletron == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;
@@ -97,7 +97,7 @@ status_t imprimir_memoria (struct simpletron * simpletron, long cantidad_de_memo
  * Imprime los datos en el siguiente orden: acumulador, contador, instruccion actual: instruccion,
  * opcode, operando; y finalmente las posiciones de memoria. Devuelve
  * estado por el nombre*/
-status_t imprimir_bin (struct simpletron * simpletron, FILE * f_output, long cantidad_de_memoria) {
+status_t imprimir_bin (const struct simpletron * simpletron, FILE * f_output, long cantidad_de_memoria) {
 	size_t i;
 	if (simpletron == NULL || f_output == NULL)
 		return ST_ERROR_PUNTERO_NULO;

@@ -6,6 +6,7 @@
 #include "procesamiento.h"
 #include "error.h"
 #include "simpletron.h"
+#include "herramientas.h"
 
 /* Recibe la cantidad de memoria pedida por el usuario y la estructura
  * simpleton que contiene los datos de la ejecucion del programa. Se
@@ -21,7 +22,6 @@ status_t ejecutar_simpletron (struct simpletron * simpletron, long cantidad_de_m
 	while(simpletron -> contador < cantidad_de_memoria) {
 		/*Se cargan los nuevos datos al simpletron*/
 		simpletron -> instruccion_actual = *(simpletron -> memoria[simpletron -> contador]);
-		
 		if(simpletron -> memoria[simpletron -> contador] -> opcode == OP_HALT)
 			break;
 		
@@ -34,67 +34,89 @@ status_t ejecutar_simpletron (struct simpletron * simpletron, long cantidad_de_m
 			case OP_LEER:
 				if((st = leer (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			
 			case OP_ESCRIBIR:
 				if((st = escribir (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_CARGAR:
 				if((st = cargar (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_GUARDAR:
 				if((st = guardar (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_PCARGAR:
 				if((st = pcargar(simpletron, cantidad_de_memoria)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_PGUARDAR:
 				if((st = pguardar (simpletron, cantidad_de_memoria)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_SUMAR:
 				if((st = sumar (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_RESTAR:
 				if((st = restar (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_DIVIDIR:
 				if((st = dividir (simpletron)) != ST_OK) 
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_MULTIPLICAR:
 				if((st = multiplicar (simpletron)) != ST_OK)
 					return st;
+				simpletron -> contador++;
 				break;
 			case OP_JMP:
 				if((st = jmp (simpletron)) != ST_OK)
 					return st;
 				break;
 			case OP_JMPNEG:
-				if ((simpletron -> acc) < 0)
+				if ((simpletron -> acc) < 0) {
 					if((st = jmp (simpletron)) != ST_OK) 
 						return st;
+				}
+				else
+					simpletron -> contador++;
 				break;
 			case OP_JMPZERO:
-				if (!(simpletron -> acc))
+				if (!(simpletron -> acc)) {
 					if((st = jmp (simpletron)) != ST_OK) 
 						return st;
+				}
+				else
+					simpletron -> contador++;
 				break;
 			case OP_JNZ:
-				if ((simpletron -> acc))
+				if ((simpletron -> acc)) {
 					if((st = jmp (simpletron)) != ST_OK)
 						return st;
+				}
+				else
+					simpletron -> contador++;
 				break;
 			case OP_DJNZ:
-				if (--(simpletron -> acc))
+				if (--(simpletron -> acc)){
 					if((st = jmp (simpletron)) != ST_OK) 
 						return st;
+				}
+				else
+					simpletron -> contador++;
 				break;
 			default:
 				return ST_ERROR_SIMPLETRON;
@@ -126,14 +148,13 @@ status_t leer (struct simpletron * simpletron) {
 	numero_aux = strtol(cadena_aux, &endp, 10);
 	if (*endp != '\n' && *endp)
 		return ST_ERROR_SIMPLETRON;
-	if (numero_aux > MAX_PALABRA || numero_aux < MIN_PALABRA)
+	if (numero_aux > MAX_INSTRUCCION || numero_aux < MIN_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
 	simpletron -> memoria [operando] -> instruccion = numero_aux;
 	simpletron -> memoria [operando] -> opcode = numero_aux / MAX_CANT_OPERANDOS;
 	simpletron -> memoria [operando] -> operando = abs_t(numero_aux)  % MAX_CANT_OPERANDOS;
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -148,7 +169,6 @@ status_t escribir (struct simpletron * simpletron) {
 		
 	printf("%s %lu: %d\n", MSJ_CONTENIDO_POSICION, simpletron -> instruccion_actual.operando, simpletron -> memoria [simpletron -> instruccion_actual.operando] -> instruccion);
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -162,7 +182,6 @@ status_t cargar (struct simpletron * simpletron) {
 		return ST_ERROR_PUNTERO_NULO;
 		
 	simpletron -> acc = simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion;
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -178,14 +197,13 @@ status_t guardar (struct simpletron * simpletron) {
 		
 	aux = simpletron -> acc;
 	
-	if (aux > MAX_PALABRA || aux < MIN_PALABRA)
+	if (aux > MAX_INSTRUCCION || aux < MIN_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
 	simpletron -> memoria[operando] -> instruccion =  aux;
 	simpletron -> memoria[operando] -> opcode = aux / MAX_CANT_OPERANDOS;
 	simpletron -> memoria[operando] -> operando = abs_t(aux) % MAX_CANT_OPERANDOS;
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -198,10 +216,9 @@ status_t sumar (struct simpletron * simpletron) {
 	if (simpletron == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 		
-	if(((simpletron -> acc) += simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) > MAX_PALABRA)
+	if(((simpletron -> acc) += simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) > MAX_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -214,10 +231,9 @@ status_t restar (struct simpletron * simpletron) {
 	if (simpletron == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 		
-	if(((simpletron -> acc) -= simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) < MIN_PALABRA)
+	if(((simpletron -> acc) -= simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) < MIN_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -232,7 +248,6 @@ status_t dividir (struct simpletron * simpletron) {
 	
 	simpletron -> acc /= simpletron -> memoria [simpletron -> instruccion_actual.operando] -> instruccion;
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -245,10 +260,9 @@ status_t multiplicar (struct simpletron * simpletron) {
 	if (simpletron == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 		
-	if ((simpletron -> acc *= simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) > MAX_PALABRA || simpletron -> acc < MIN_PALABRA)
+	if ((simpletron -> acc *= simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) > MAX_INSTRUCCION || simpletron -> acc < MIN_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -259,7 +273,7 @@ status_t jmp (struct simpletron * simpletron) {
 	if (simpletron == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 		
-	simpletron -> contador = simpletron -> instruccion_actual. operando;
+	simpletron -> contador = simpletron -> instruccion_actual.operando;
 	return ST_OK;
 }
 
@@ -278,7 +292,6 @@ status_t pcargar (struct simpletron * simpletron, long cantidad_de_memoria) {
 		
 	simpletron -> acc = simpletron -> memoria[aux] -> instruccion;
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
 
@@ -295,13 +308,12 @@ status_t pguardar (struct simpletron * simpletron, long cantidad_de_memoria) {
 		return ST_ERROR_PUNTERO_NULO;
 	if ((aux = simpletron -> memoria[simpletron -> instruccion_actual.operando] -> instruccion) >= cantidad_de_memoria || aux < 0)
 		return ST_ERROR_SIMPLETRON;
-	if (simpletron -> acc > MAX_PALABRA || simpletron -> acc < MIN_PALABRA)
+	if (simpletron -> acc > MAX_INSTRUCCION || simpletron -> acc < MIN_INSTRUCCION)
 		return ST_ERROR_SIMPLETRON;
 		
 	simpletron -> memoria[aux] -> instruccion = simpletron -> acc;
 	simpletron -> memoria[aux] -> opcode = simpletron -> acc / MAX_CANT_OPERANDOS;
 	simpletron -> memoria[aux] -> operando = abs_t(simpletron -> acc) % MAX_CANT_OPERANDOS;
 	
-	simpletron -> contador++;
 	return ST_OK;
 }
