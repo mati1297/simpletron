@@ -83,7 +83,7 @@ status_t procesamiento_txt (struct instruccion ** memoria, const char * file_inp
 	 /*VE SI PUDO LEER TODO EL ARHCIVO O LE QUEDARON COSAS AFUERA*/
 	if (!feof (fi)) {
 		fclose (fi);
-		return ST_ERROR_LECTURA_ARCHIVO;
+		return ST_ERROR_MEMORIA_INSUFICIENTE_ARCHIVO;
 	}
 	
 	if (ferror (fi)) {
@@ -124,7 +124,7 @@ status_t procesamiento_bin (struct instruccion ** memoria, const char * file_inp
 	
 	if (!feof (fi)) {
 		fclose (fi);
-		return ST_ERROR_LECTURA_ARCHIVO;
+		return ST_ERROR_MEMORIA_INSUFICIENTE_ARCHIVO;
 	}
 	
 	if (ferror (fi)) {

@@ -14,5 +14,6 @@
 #define MSJ_ERROR_LECTURA_ARCHIVO "no se pudo leer el archivo"
 #define MSJ_ERROR_SIMPLETRON "en ejecución de Simpletron"
 #define MSJ_ERROR_CANTIDAD_DE_MEMORIA_INVALIDA "cantidad de memoria invalida"
+#define MSJ_ERROR_MEMORIA_INSUFICIENTE_ARCHIVO "memoria de simpletron insuficiente para cargar el programa"
 
 #endif

@@ -6,10 +6,10 @@ FLAG_ESP = -DIDIOMA_ESPANIOL
 FLAG_ENG = -DLANG_ENGLISH
 
 espaniol:
-	make CFLAGS+="$(FLAGS_ESP)" all
+	make CFLAGS+="$(FLAG_ESP)" all
 
 english:
-	make CFLAGS+="$(FLAGS_ENG)" all
+	make CFLAGS+="$(FLAG_ENG)" all
 	
 all: simpletron clean
 
