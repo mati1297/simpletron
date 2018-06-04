@@ -10,7 +10,6 @@
 #include "argumentos.h"
 #include "types.h"
 
-
 /* Recibe los argumentos ingresados por el usuario y la cantidad de argumentos
  * ingresados, incluyendo la ejecución del programa. Llama a las funciones
  * de más alto nivel del programa. Devuelve EXIT_FAILURE en caso de haber

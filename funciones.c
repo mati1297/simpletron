@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "funciones.h"
 #include "types.h"
 #include "idioma.h"
@@ -14,6 +15,7 @@
  * Si ocurre un problema o si no lo devuelve a travez del nombre. */
 status_t ejecutar_simpletron (struct simpletron * simpletron, long cantidad_de_memoria) {
 	status_t st;
+	
 	if (simpletron == NULL)
 		return ST_ERROR_PUNTERO_NULO;
 	
@@ -153,7 +155,7 @@ status_t leer (struct simpletron * simpletron) {
 		
 	simpletron -> memoria [operando] -> instruccion = numero_aux;
 	simpletron -> memoria [operando] -> opcode = numero_aux / MAX_CANT_OPERANDOS;
-	simpletron -> memoria [operando] -> operando = abs_t(numero_aux)  % MAX_CANT_OPERANDOS;
+	simpletron -> memoria [operando] -> operando = abs(numero_aux)  % MAX_CANT_OPERANDOS;
 	
 	return ST_OK;
 }
@@ -202,7 +204,7 @@ status_t guardar (struct simpletron * simpletron) {
 		
 	simpletron -> memoria[operando] -> instruccion =  aux;
 	simpletron -> memoria[operando] -> opcode = aux / MAX_CANT_OPERANDOS;
-	simpletron -> memoria[operando] -> operando = abs_t(aux) % MAX_CANT_OPERANDOS;
+	simpletron -> memoria[operando] -> operando = abs(aux) % MAX_CANT_OPERANDOS;
 	
 	return ST_OK;
 }
@@ -313,7 +315,7 @@ status_t pguardar (struct simpletron * simpletron, long cantidad_de_memoria) {
 		
 	simpletron -> memoria[aux] -> instruccion = simpletron -> acc;
 	simpletron -> memoria[aux] -> opcode = simpletron -> acc / MAX_CANT_OPERANDOS;
-	simpletron -> memoria[aux] -> operando = abs_t(simpletron -> acc) % MAX_CANT_OPERANDOS;
+	simpletron -> memoria[aux] -> operando = abs(simpletron -> acc) % MAX_CANT_OPERANDOS;
 	
 	return ST_OK;
 }

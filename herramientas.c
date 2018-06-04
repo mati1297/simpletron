@@ -85,7 +85,9 @@ status_t imprimir_ayuda (FILE * f_out) {
 	fclose (fhelp);
 	return ST_OK;
 }
-	
+
+/* Recibe una cadena. Le saca los espacios de al comienzo y de al final.
+ * Devuelve la cadena sin los espacios. */
 char * recortar_espacios (char * s) {
 	char * inicio, * fin;
 	for (inicio = s; isspace (*inicio) && *inicio; inicio++)
@@ -98,10 +100,4 @@ char * recortar_espacios (char * s) {
 		;
 	*++fin = '\0';
 	return memmove (s, inicio, fin - inicio + 1);
-}
-
-int abs_t (int x) {
-	if (x < 0)
-		return x * -1;
-	return x;
 }

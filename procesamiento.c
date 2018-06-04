@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <ctype.h>
 #include "procesamiento.h"
 #include "herramientas.h"
 #include "types.h"
 #include "error.h"
 #include "simpletron.h"
-
-
 
 /* Esta función recibe un puntero a la estructura con la informacion sobre
  * los argumentos recibidos por la línea de comandos y también un vector
@@ -28,7 +27,6 @@ status_t procesamiento_txt (struct instruccion ** memoria, const char * file_inp
 		return ST_ERROR_PUNTERO_NULO;
 	}
 
-	
 	if ((fi = fopen (file_input, "rt")) == NULL) {
 		return ST_ERROR_LECTURA_ARCHIVO;
 	}
@@ -69,7 +67,7 @@ status_t procesamiento_txt (struct instruccion ** memoria, const char * file_inp
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
 		memoria[i] -> instruccion = aux;
-		memoria[i] -> operando = abs_t (aux) % MAX_CANT_OPERANDOS;
+		memoria[i] -> operando = abs (aux) % MAX_CANT_OPERANDOS;
 		memoria[i] -> opcode = aux / MAX_CANT_OPERANDOS;
 		
 	}
@@ -96,7 +94,6 @@ status_t procesamiento_txt (struct instruccion ** memoria, const char * file_inp
 	return ST_OK;
 }
 
-
 /*Recibe un vector de punteros a la estructura de las instrucciones,
  * y la informacion del archivo de entrada y la cantidad de memoria
  * pedida por el usuario. Lee los datos de forma binaria y los guarda
@@ -116,9 +113,8 @@ status_t procesamiento_bin (struct instruccion ** memoria, const char * file_inp
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		memoria[i] -> instruccion = aux;
 		memoria[i] -> opcode = aux / MAX_CANT_OPERANDOS;
-		memoria[i] -> operando = abs_t(aux) % MAX_CANT_OPERANDOS;
+		memoria[i] -> operando = abs(aux) % MAX_CANT_OPERANDOS;
 	}
-	
 	
 	fread(&aux, sizeof(int), 1, fi);
 	
@@ -137,8 +133,6 @@ status_t procesamiento_bin (struct instruccion ** memoria, const char * file_inp
 	return ST_OK;
 }
 
-
-
 /* Esta función recibe un puntero a el vector de punteros que representa la memoria
  * y la cantidad de memoria pedida por el usuario. Lee por stdin las palabras que
  * ingresa el usuario hasta que se termine la memoria solicitada o hasta
@@ -154,8 +148,6 @@ status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_me
 	if (memoria == NULL) {
 		return ST_ERROR_PUNTERO_NULO;
 	}
-	
-	
 	
 	if ((buffer = (char *) malloc (sizeof (char) * (LARGO_INSTRUCCION + 2))) == NULL) {
 		return ST_ERROR_MEMORIA_INVALIDA;
@@ -180,10 +172,7 @@ status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_me
 			return st;
 		}
 	
-		
 		aux = strtol (buffer, &endp, 10);
-		
-		
 		
 		if (*endp) {
 			free (buffer);
@@ -199,11 +188,9 @@ status_t procesamiento_stdin (struct instruccion ** memoria, long cantidad_de_me
 			buffer = NULL;
 			return ST_ERROR_INSTRUCCION_INVALIDA;
 		}
-		
-		
 			
 		memoria[i] -> instruccion = aux;
-		memoria[i] -> operando = abs_t (aux) % MAX_CANT_OPERANDOS;
+		memoria[i] -> operando = abs (aux) % MAX_CANT_OPERANDOS;
 		memoria[i] -> opcode = aux / MAX_CANT_OPERANDOS;
 	}
 	

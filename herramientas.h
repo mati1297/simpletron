@@ -15,6 +15,5 @@ void liberar_vector_de_punteros (struct instruccion ***, size_t);
 status_t imprimir_ayuda (FILE * f_out);
 status_t pedir_memoria_vector_punteros (struct instruccion *** memoria, long cantidad_de_memoria, size_t * cant);
 char * recortar_espacios (char * s);
-int abs_t (int x);
 
 #endif
